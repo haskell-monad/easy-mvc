@@ -1,2 +1,2 @@
 # easy-mvc
-轻量级web框架 
+轻量级web框架
