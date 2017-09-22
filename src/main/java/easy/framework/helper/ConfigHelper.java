@@ -20,4 +20,8 @@ public class ConfigHelper {
         return PropertyUtil.getStringValue(PropertyConfigConstant.STATIC_DIR_CONFIG,PropertyConfigConstant.STATIC_DIR_CONFIG_DEFAULT);
     }
 
+    public static String getConfigValue(String key){
+        return PropertyUtil.getStringValue(key);
+    }
+
 }

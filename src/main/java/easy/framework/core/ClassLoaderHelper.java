@@ -24,8 +24,12 @@ public class ClassLoaderHelper {
 		return Thread.currentThread().getContextClassLoader();
 	}
 
-	public static void loadClass(Class<?> clazz){
-		loadClass(clazz.getName(),true);
+	public static Class<?> loadClass(String name){
+		return loadClass(name,true);
+	}
+
+	public static Class<?> loadClass(Class<?> clazz){
+		return loadClass(clazz.getName(),true);
 	}
 
 	public static Class<?> loadClass(String className, boolean init) {

@@ -23,5 +23,9 @@ public class PropertyConfigConstant {
     public static final String JSP_DIR_CONFIG_DEFAULT = "/webapp/WEB-INF/views";
     public static final String STATIC_DIR_CONFIG_DEFAULT = "/webapp/static";
 
+    //自定义实现
+    public static final String HANDLER_MAPPING_KEY = "easy.framework.custom.handler-mapping";
+    public static final String HANDLER_INVOKE_KEY = "easy.framework.custom.handler-invoke";
+    public static final String HANDLER_VIEW_RESOLVER_KEY = "easy.framework.custom.handler-view-resolver";
 
 }
