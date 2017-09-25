@@ -3,7 +3,7 @@ package easy.framework.helper;
 import easy.framework.core.*;
 import easy.framework.ioc.BeanHelper;
 import easy.framework.ioc.IocHelper;
-import easy.framework.mvc.ControllerHelper;
+import easy.framework.mvc.helper.ControllerHelper;
 
 /**
  * Created by limengyu on 2017/9/18.

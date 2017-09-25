@@ -1,4 +1,4 @@
-package easy.framework.mvc;
+package easy.framework.mvc.listener;
 
 import easy.framework.helper.ConfigHelper;
 import easy.framework.helper.HelperLoader;
@@ -38,7 +38,8 @@ public class ContainerListener implements ServletContextListener {
 		registration.addMapping("/favicon.ico");
 		String staticDir = ConfigHelper.getStaticDir();
 		if (StringUtils.isNotBlank(staticDir)) {
-			registration.addMapping(staticDir + "/*");
+			staticDir = staticDir.endsWith("/") ? staticDir + "*" : staticDir + "/*";
+			registration.addMapping(staticDir);
 		}
 	}
 	private void registerJspServlet(ServletContext servletContext) {
@@ -46,7 +47,8 @@ public class ContainerListener implements ServletContextListener {
 		registration.addMapping("/index.jsp");
 		String jspDir = ConfigHelper.getJspDir();
 		if (StringUtils.isNotBlank(jspDir)) {
-			registration.addMapping(jspDir + "/*");
+			jspDir = jspDir.endsWith("/") ? jspDir + "*" : jspDir + "/*";
+			registration.addMapping(jspDir);
 		}
 	}
 }

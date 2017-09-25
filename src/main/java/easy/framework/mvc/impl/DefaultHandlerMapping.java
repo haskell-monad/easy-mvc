@@ -1,6 +1,6 @@
 package easy.framework.mvc.impl;
 
-import easy.framework.mvc.ControllerHelper;
+import easy.framework.mvc.helper.ControllerHelper;
 import easy.framework.mvc.HandlerMapping;
 import easy.framework.mvc.model.RequestHandler;
 import easy.framework.mvc.model.RequestModel;

@@ -30,6 +30,12 @@ public class PropertyUtil {
 	public static Long getLongValue(String key) {
 		return getStringValue(key) == null ? null : Long.valueOf(getStringValue(key));
 	}
+	public static Long getLongValue(String key,long defaultValue) {
+		return getStringValue(key) == null ? defaultValue : Long.valueOf(getStringValue(key));
+	}
+	public static long getLongDefaultValue(String key,long defaultValue) {
+		return getStringValue(key) == null ? defaultValue : Long.parseLong(getStringValue(key));
+	}
 	public static Double getDoubleValue(String key) {
 		return getStringValue(key) == null ? null : Double.valueOf(getStringValue(key));
 	}

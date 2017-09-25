@@ -4,6 +4,7 @@ import easy.framework.InstanceFactory;
 import easy.framework.common.PropertyConfigConstant;
 import easy.framework.mvc.HandlerInvoke;
 import easy.framework.mvc.HandlerMapping;
+import easy.framework.mvc.helper.FileUploadHelper;
 import easy.framework.mvc.model.RequestHandler;
 import easy.framework.mvc.model.RequestModel;
 import easy.framework.utils.ServletUtils;
@@ -28,7 +29,7 @@ public class DispatcherServlet extends HttpServlet {
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
+		FileUploadHelper.init();
 	}
 	@Override
 	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {

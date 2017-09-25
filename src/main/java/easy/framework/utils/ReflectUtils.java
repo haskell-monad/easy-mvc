@@ -56,4 +56,61 @@ public class ReflectUtils {
 		logger.debug("method [{}] params list: {}", method.getName(), paramNameList);
 		return paramNameList;
 	}
+
+	/**
+	 * 转换参数类型
+	 * @param paramType
+	 * @param paramValue
+	 * @return Object
+	 */
+	public static Object convertValue(Class<?> paramType, Object paramValue) {
+		if (paramValue == null) {
+			return paramValue;
+		}
+		if (paramType.isInstance(paramValue)) {
+			return paramValue;
+		}
+		String param = null;
+		if (paramValue instanceof String) {
+			param = (String) paramValue;
+		}
+		if (paramType.isPrimitive()) {
+			if (paramType.getName().equals("byte")) {
+				return Integer.parseInt(param);
+			} else if (paramType.getName().equals("short")) {
+				return Short.parseShort(param);
+			} else if (paramType.getName().equals("int")) {
+				return Integer.parseInt(param);
+			} else if (paramType.getName().equals("long")) {
+				return Long.parseLong(param);
+			} else if (paramType.getName().equals("double")) {
+				return Double.parseDouble(param);
+			} else if (paramType.getName().equals("float")) {
+				return Float.parseFloat(param);
+			} else if (paramType.getName().equals("bool")) {
+				return Boolean.parseBoolean(param);
+			} else {
+				logger.error("paramValue: {},paramType: {}", paramValue, paramType);
+				throw new RuntimeException("类型转换异常");
+			}
+		} else {
+			if (paramType.isAssignableFrom(Byte.class)) {
+				return Byte.valueOf(param);
+			} else if (paramType.isAssignableFrom(Short.class)) {
+				return Short.valueOf(param);
+			} else if (paramType.isAssignableFrom(Integer.class)) {
+				return Integer.valueOf(param);
+			} else if (paramType.isAssignableFrom(Long.class)) {
+				return Long.valueOf(param);
+			} else if (paramType.isAssignableFrom(Float.class)) {
+				return Float.valueOf(param);
+			} else if (paramType.isAssignableFrom(Double.class)) {
+				return Double.valueOf(param);
+			} else if (paramType.isAssignableFrom(Boolean.class)) {
+				return Boolean.valueOf(param);
+			} else {
+				return paramType.cast(paramValue);
+			}
+		}
+	}
 }

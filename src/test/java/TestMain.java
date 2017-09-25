@@ -1,4 +1,5 @@
 import easy.framework.mvc.impl.DefaultHandlerMapping;
+import easy.framework.mvc.model.FileModel;
 import easy.framework.mvc.model.RequestHandler;
 import easy.framework.mvc.model.Result;
 import org.apache.commons.lang3.StringUtils;
@@ -75,11 +76,16 @@ public class TestMain {
 //            System.out.println(matcher.group(i));
 //        }
 
-        Object str = "12";
-        Object result = new Result();
-        System.out.println(int.class.getName());
-        System.out.println(int.class.getCanonicalName());
-        System.out.println(int.class.getSimpleName());
-        System.out.println(int.class.getTypeName());
+//        Object str = "12";
+//        Object result = new Result();
+//        System.out.println(int.class.getName());
+//        System.out.println(int.class.getCanonicalName());
+//        System.out.println(int.class.getSimpleName());
+//        System.out.println(int.class.getTypeName());
+
+        List<FileModel> list = new ArrayList<>();
+        System.out.println(List.class.isAssignableFrom(list.getClass()));
+        System.out.println(list.getClass().isAssignableFrom(List.class));
+        System.out.println(list.getClass().isAssignableFrom(FileModel.class));
     }
 }

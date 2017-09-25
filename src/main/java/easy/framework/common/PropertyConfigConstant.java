@@ -9,8 +9,6 @@ public class PropertyConfigConstant {
 
     public static final String ROOT_PACKAGE = "easy/mvc";
 
-    public static final String DEFAULT_ENCODE = "utf-8";
-
     public static final String BASE_PACKAGE_CONFIG = "easy.mvc.base.package";
     public static final String JSP_DIR_CONFIG = "easy.mvc.web.jsp.dir";
     public static final String STATIC_DIR_CONFIG = "easy.mvc.web.static.dir";
@@ -20,12 +18,21 @@ public class PropertyConfigConstant {
     public static final String JDBC_PASSWORD = "easy.mvc.jdbc.password";
 
     public static final String BASE_PACKAGE_CONFIG_DEFAULT = "/base";
-    public static final String JSP_DIR_CONFIG_DEFAULT = "/webapp/WEB-INF/views";
-    public static final String STATIC_DIR_CONFIG_DEFAULT = "/webapp/static";
+    public static final String JSP_DIR_CONFIG_DEFAULT = "/WEB-INF/views/";
+    public static final String STATIC_DIR_CONFIG_DEFAULT = "/static/";
 
     //自定义实现
     public static final String HANDLER_MAPPING_KEY = "easy.framework.custom.handler-mapping";
     public static final String HANDLER_INVOKE_KEY = "easy.framework.custom.handler-invoke";
     public static final String HANDLER_VIEW_RESOLVER_KEY = "easy.framework.custom.handler-view-resolver";
 
+
+    //文件上传
+    public static final String FILE_UPLOAD_MAX_SIZE = "easy.framework.custom.fileUpload.maxSize";
+    public static final String FILE_UPLOAD_SINGLE_FILE_SIZE = "easy.framework.custom.fileUpload.singleFileSize";
+    public static final String FILE_UPLOAD_DIR_NAME = "easy.framework.custom.fileUpload.directory";
+
+    public static final long FILE_UPLOAD_MAX_SIZE_DEFAULT = 1024*1024*50;
+    public static final long FILE_UPLOAD_SINGLE_FILE_SIZE_DEFAULT = 1024*1024*6;
+    public static final String FILE_UPLOAD_DIR_NAME_DEFAULT = "/temp";
 }

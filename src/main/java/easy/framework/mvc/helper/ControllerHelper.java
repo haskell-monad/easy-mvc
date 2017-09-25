@@ -1,4 +1,4 @@
-package easy.framework.mvc;
+package easy.framework.mvc.helper;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import easy.framework.mvc.common.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +60,7 @@ public class ControllerHelper {
 				requestModel.setPath(rootPath + "/" + path);
 				requestModel.setMethod(requestMethod.name());
 				if (requestModel.isRegex()) {
-					String pattern = requestModel.getPath().replaceAll("\\{[^\\}]+\\}", "([a-zA-Z_\\$]+[0-9]*)");
+					String pattern = requestModel.getPath().replaceAll(Constant.PATH_PARAM_TAG, Constant.PATH_PARAM_REGEX);
 					controllerModel.setPattern(Pattern.compile(pattern));
 					controllerModel.setPathParams(requestModel.pathParams());
 				}

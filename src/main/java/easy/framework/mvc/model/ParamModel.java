@@ -2,6 +2,7 @@ package easy.framework.mvc.model;
 
 /**
  * Created by limengyu on 2017/9/22.
+ *  某个方法的参数信息
  */
 public class ParamModel {
 	private String paramName;
@@ -9,6 +10,15 @@ public class ParamModel {
 	private Class<?> paramType;
 	private int paramIndex;
 	private boolean requestBody;
+	private boolean fileBody;
+
+	public boolean isFileBody() {
+		return fileBody;
+	}
+
+	public void setFileBody(boolean fileBody) {
+		this.fileBody = fileBody;
+	}
 
 	public boolean isRequestBody() {
 		return requestBody;
