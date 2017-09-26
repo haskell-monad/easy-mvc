@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import easy.framework.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,13 +55,14 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 				e.printStackTrace();
 			}
 		}
+		logger.debug("***********请求开始************");
 		Method method = requestHandler.getMethod();
 		Object beanInstance = BeanHelper.getBeanInstance(requestHandler.getControllerClass());
 		Object[] params = this.builderMethodParam(request, requestHandler);
 		try {
-			logger.debug("开始执行方法....");
 			Object resultObj = method.invoke(beanInstance, params);
-			logger.debug("开始方法结果....{}", resultObj);
+			logger.debug("**请求执行结果: {}",JsonUtils.toJson(resultObj));
+			logger.debug("***********请求结束************");
 			HandlerViewResolver viewResolver = InstanceFactory.getHandlerViewResolver();
 			viewResolver.resolver(request, response, resultObj);
 		} catch (IllegalAccessException e) {
@@ -78,9 +80,9 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 	private Object[] builderMethodParam(HttpServletRequest request, RequestHandler requestHandler) {
 		Method method = requestHandler.getMethod();
 		List<String> methodParamNameList = ReflectUtils.findMethodParamName(method);
+		logger.debug("**方法参数列表: {},{}", method.getName(), methodParamNameList);
 		String requestPath = ServletUtils.requestPath(request);
-		int parameterCount = method.getParameterCount();
-		logger.debug("方法参数名称列表: {}", methodParamNameList);
+//		int parameterCount = method.getParameterCount();
 		List<ParamModel> paramList = this.getMethodParamInfo(method, methodParamNameList);
 		List<ParamModel> requestBodyList = paramList.stream().filter(model -> model.isRequestBody()).collect(Collectors.toList());
 		Map<String, String> pathParamsMap = this.parsePathParams(requestHandler, requestPath);
@@ -114,8 +116,8 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 				paramValueList.add(ReflectUtils.convertValue(paramModel.getParamType(), paramValue));
 			}
 		}
-		logger.debug("方法参数信息: {}", paramList);
-		logger.debug("方法参数值列表: {}", paramValueList);
+//		logger.debug("方法参数信息: {}", JsonUtils.toJson(paramList));
+//		logger.debug("方法参数值列表: {}", paramValueList);
 		Object[] objects = paramValueList.toArray();
 		return objects;
 	}

@@ -58,17 +58,17 @@ public class FileUploadHelper {
 		}
 		// 对所有请求信息进行判断
 		Iterator<FileItem> iterator = items.iterator();
-        List<String> list = null;
-        while (iterator.hasNext()) {
+		List<String> list;
+		while (iterator.hasNext()) {
 			FileItem fileItem = iterator.next();
 			if (fileItem.isFormField()) {
-                if(formFieldMap.containsKey(fileItem.getFieldName())){
-                    list = formFieldMap.get(fileItem.getFieldName());
-                }else{
-                    list = new ArrayList<>();
-                }
-                list.add(fileItem.getString());
-				formFieldMap.put(fileItem.getFieldName(),list);
+				if (formFieldMap.containsKey(fileItem.getFieldName())) {
+					list = formFieldMap.get(fileItem.getFieldName());
+				} else {
+					list = new ArrayList<>();
+				}
+				list.add(fileItem.getString());
+				formFieldMap.put(fileItem.getFieldName(), list);
 			} else {
 				String realFileName = getRealFileName(fileItem);
 				String tempFileName = getTempFileName(realFileName);
@@ -87,7 +87,7 @@ public class FileUploadHelper {
 		}
 		paramModel.setFileList(fileList);
 		paramModel.setFormFileMap(formFieldMap);
-		logger.debug("获取到表单参数信息: {},文件上传数量：{}", JsonUtils.toJson(formFieldMap),fileList.size());
+		logger.debug("获取到表单参数信息: {},文件上传数量：{}", JsonUtils.toJson(formFieldMap), fileList.size());
 		return paramModel;
 	}
 	public static String getRealFileName(FileItem fileItem) {
@@ -133,7 +133,7 @@ public class FileUploadHelper {
 			outputStream.flush();
 		} catch (Exception e) {
 			logger.error("targetFile: {}", targetFile);
-			throw new RuntimeException("保存文件失败", e);
+			throw new RuntimeException("文件上传失败", e);
 		} finally {
 			try {
 				outputStream.close();

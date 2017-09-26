@@ -32,7 +32,7 @@ public class PropertyConfigConstant {
     public static final String FILE_UPLOAD_SINGLE_FILE_SIZE = "easy.framework.custom.fileUpload.singleFileSize";
     public static final String FILE_UPLOAD_DIR_NAME = "easy.framework.custom.fileUpload.directory";
 
-    public static final long FILE_UPLOAD_MAX_SIZE_DEFAULT = 1024*1024*50;
-    public static final long FILE_UPLOAD_SINGLE_FILE_SIZE_DEFAULT = 1024*1024*6;
-    public static final String FILE_UPLOAD_DIR_NAME_DEFAULT = "/temp";
+    public static final long FILE_UPLOAD_MAX_SIZE_DEFAULT = 1024*1024*20;
+    public static final long FILE_UPLOAD_SINGLE_FILE_SIZE_DEFAULT = 1024*1024*2;
+    public static final String FILE_UPLOAD_DIR_NAME_DEFAULT = "/fileUploadTempDir";
 }

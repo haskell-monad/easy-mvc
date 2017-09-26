@@ -37,11 +37,6 @@ public class DispatcherServlet extends HttpServlet {
 		HttpServletRequest request = (HttpServletRequest)req;
 		HttpServletResponse response = (HttpServletResponse)res;
 		String requestPath = ServletUtils.requestPath(request);
-		logger.debug("requestPath: {}",requestPath);
-		logger.debug("uri: {}", request.getRequestURI());
-		logger.debug("contextPath: {}",request.getContextPath());
-		logger.debug("method: {}",request.getMethod());
-		logger.debug("queryString: {}",request.getQueryString());
 
 		HandlerMapping handlerMapping = InstanceFactory.getHandlerMapping();
 		HandlerInvoke handlerInvoke = InstanceFactory.getHandlerInvoke();

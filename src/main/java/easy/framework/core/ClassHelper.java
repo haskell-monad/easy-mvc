@@ -34,7 +34,7 @@ public class ClassHelper {
 	 */
 	public static Set<Class<?>> findClassByAnnotation(Class<? extends Annotation> annotation) {
 		Set<Class<?>> result = allClass.stream().filter(clazz -> clazz.isAnnotationPresent(annotation)).collect(Collectors.toSet());
-		logger.debug("根据注解[{}]获取所有类: {}", annotation, result);
+//		logger.debug("根据注解[{}]获取所有类: {}", annotation, result);
 		return result;
 	}
 	/**
@@ -46,7 +46,7 @@ public class ClassHelper {
 
 		//isAssignableFrom 用来判断一个类superClazz和另一个类clazz是否相同或是另一个类的超类或接口
 		Set<Class<?>> result = allClass.stream().filter(clazz -> superClazz.isAssignableFrom(clazz) && !superClazz.equals(clazz)).collect(Collectors.toSet());
-		logger.debug("获取类[{}]所有的子类: {}", superClazz.getSimpleName(), result);
+//		logger.debug("获取类[{}]所有的子类: {}", superClazz.getSimpleName(), result);
 		return result;
 	}
 }

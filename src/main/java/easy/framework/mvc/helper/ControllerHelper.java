@@ -64,7 +64,7 @@ public class ControllerHelper {
 					controllerModel.setPattern(Pattern.compile(pattern));
 					controllerModel.setPathParams(requestModel.pathParams());
 				}
-				logger.debug("request-path: {}\t{}\t{}", requestModel.getMethod(), requestModel.getPath(), controllerModel.getPattern() == null ? null : controllerModel.getPattern().pattern());
+//				logger.debug("request-path: {}\t{}\t{}", requestModel.getMethod(), requestModel.getPath(), controllerModel.getPattern() == null ? null : controllerModel.getPattern().pattern());
 				handlerMap.put(requestModel, controllerModel);
 			}
 		}

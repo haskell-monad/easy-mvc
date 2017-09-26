@@ -26,6 +26,7 @@ public class DefaultHandlerViewResolver implements HandlerViewResolver {
 	@Override
 	public void resolver(HttpServletRequest request, HttpServletResponse response, Object resultObj) {
 		if (resultObj == null) {
+			logger.debug("resultObj为空,没有resolver");
 			return;
 		}
 		if (resultObj instanceof View) {

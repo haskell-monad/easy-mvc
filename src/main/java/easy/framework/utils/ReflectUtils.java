@@ -39,7 +39,7 @@ public class ReflectUtils {
 		CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
 		LocalVariableAttribute attr = (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
 		if (attr == null) {
-			logger.debug("method [{}] no params", method.getName());
+//			logger.debug("method [{}] no params", method.getName());
 			return paramNameList;
 		}
 		String[] paramNames = new String[parameterTypes.length];
@@ -48,12 +48,11 @@ public class ReflectUtils {
 		for (int i = 0; i < paramNames.length; i++) {
 			paramNames[i] = attr.variableName(i + pos);
 			signatures[i] = attr.signature(i + pos);
-			logger.debug("signatures: {}", signatures[i]);
+//			logger.debug("signatures: {}", signatures[i]);
 		}
 		for (int i = 0; i < paramNames.length; i++) {
 			paramNameList.add(paramNames[i]);
 		}
-		logger.debug("method [{}] params list: {}", method.getName(), paramNameList);
 		return paramNameList;
 	}
 

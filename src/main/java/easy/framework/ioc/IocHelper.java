@@ -19,7 +19,6 @@ import easy.framework.core.ClassHelper;
 public class IocHelper {
 	private static final Logger logger = LoggerFactory.getLogger(IocHelper.class);
 	static {
-		logger.debug("...加载Ioc容器...");
 		Map<Class<?>, Object> beanMap = BeanHelper.getBeanMap();
 		if (beanMap != null && beanMap.size() > 0) {
 			Iterator<Class<?>> iterator = beanMap.keySet().iterator();

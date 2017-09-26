@@ -5,6 +5,8 @@ import easy.framework.annotation.Controller;
 import easy.framework.annotation.Inject;
 import easy.framework.annotation.Service;
 import easy.framework.core.ClassHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +16,7 @@ import java.util.Set;
  * Created by limengyu on 2017/9/14.
  */
 public class BeanHelper {
+	private static final Logger logger = LoggerFactory.getLogger(BeanHelper.class);
 	private static final Map<Class<?>, Object> beanMap = new HashMap<>();
 	static {
 		Set<Class<?>> allClass = ClassHelper.getAllClass();
@@ -36,5 +39,16 @@ public class BeanHelper {
 			throw new RuntimeException("实例化Bean异常");
 		}
 		return (T) beanMap.get(clazz);
+	}
+	public static void putBeanInstance(Class<?> beanClass){
+		try {
+			beanMap.put(beanClass,beanClass.newInstance());
+		} catch (Exception e) {
+			throw new RuntimeException("创建bean实例异常",e);
+		}
+	}
+	public static void putBeanInstance(Class<?> beanClass,Object beanInstance){
+//		logger.debug("putBeanInstance: {},{}",beanClass,beanInstance);
+		beanMap.put(beanClass,beanInstance);
 	}
 }
