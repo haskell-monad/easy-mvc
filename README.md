@@ -3,7 +3,7 @@
 
 
 ### web.xml中增加Listener和Servlet
-``` java ```
+``` java
 <listener>
     <listener-class>easy.framework.mvc.listener.ContainerListener</listener-class>
 </listener>
@@ -21,4 +21,4 @@
     <servlet-name>easyMvc</servlet-name>
     <url-pattern>/</url-pattern>
 </servlet-mapping>
-``` java ```
+java ```
