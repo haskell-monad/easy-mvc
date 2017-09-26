@@ -2,8 +2,8 @@
 轻量级web框架
 
 
-web.xml中增加Listener和Servlet
-
+### web.xml中增加Listener和Servlet
+``` java ```
 <listener>
     <listener-class>easy.framework.mvc.listener.ContainerListener</listener-class>
 </listener>
@@ -21,3 +21,4 @@ web.xml中增加Listener和Servlet
     <servlet-name>easyMvc</servlet-name>
     <url-pattern>/</url-pattern>
 </servlet-mapping>
+``` java ```
