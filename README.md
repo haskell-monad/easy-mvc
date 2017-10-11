@@ -30,9 +30,12 @@
 @Aspect(value = { MethodExecuteTimeAspect.class, SayHelloAspect.class })
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 	@Inject
 	private UserService userService;
+	
 	@Autowired
+	//指定具体实现类
 	@Impl(UserServiceImpl.class)
 	private UserService userServices;
 
@@ -47,11 +50,13 @@ public class UserController {
 		params.put("company", "iKang");
 		params.put("area", "Beijing");
 		params.put("users",users);
+		//重定向以/开头
 		View view = new View("/user/del/100", params);
 		return view;
 	}
 	@Action(value = { "/view/{userId}" }, method = RequestMethod.GET)
 	public Result userInfo(@PathVariable Integer userId) {
+		//返回json
 		Result result = new Result();
 		result.setCode(100);
 		result.setMsg("success");
@@ -62,12 +67,17 @@ public class UserController {
 	public View delUser(@PathVariable Integer userId) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("id", userId);
+		//返回jsp页面
 		return new View("user/delete.jsp", param);
 	}
+	
+	//文件上传可以使用@FileBody注解和FileModel类
+	//form表单设置enctype="multipart/form-data"
 	@Action(value = "/upload", method = RequestMethod.POST)
 	public void uploadFile(@FileBody FileModel fileModel) {
 		logger.debug("upload......");
 	}
+	
 	@Action(value = "/uploads", method = RequestMethod.POST)
 	public void uploadFiles(@FileBody List<FileModel> fileModel) {
 		logger.debug("upload......");
