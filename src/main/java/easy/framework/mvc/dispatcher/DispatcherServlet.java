@@ -1,14 +1,11 @@
 package easy.framework.mvc.dispatcher;
 
 import easy.framework.InstanceFactory;
-import easy.framework.common.PropertyConfigConstant;
 import easy.framework.mvc.HandlerInvoke;
 import easy.framework.mvc.HandlerMapping;
 import easy.framework.mvc.helper.FileUploadHelper;
 import easy.framework.mvc.model.RequestHandler;
-import easy.framework.mvc.model.RequestModel;
 import easy.framework.utils.ServletUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

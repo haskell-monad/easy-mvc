@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import easy.framework.common.PropertyConfigConstant;
 import easy.framework.core.ClassLoaderHelper;
+import easy.framework.database.datasource.DataSourceFactory;
+import easy.framework.database.datasource.pool.DbcpDataSourceFactory;
 import easy.framework.helper.ConfigHelper;
 import easy.framework.mvc.HandlerInvoke;
 import easy.framework.mvc.HandlerMapping;
@@ -29,6 +31,9 @@ public class InstanceFactory {
 	}
 	public static HandlerViewResolver getHandlerViewResolver() {
 		return getInstance(PropertyConfigConstant.HANDLER_VIEW_RESOLVER_KEY, DefaultHandlerViewResolver.class);
+	}
+	public static DataSourceFactory getDataSourceFactory() {
+		return getInstance(PropertyConfigConstant.DATASOURCE_KEY, DbcpDataSourceFactory.class);
 	}
 	private static <T> T getInstance(String cacheKey, Class<T> clazz) {
 		try {

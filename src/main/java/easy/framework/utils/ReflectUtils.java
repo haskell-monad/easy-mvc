@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import easy.framework.mvc.annotation.PathVariable;
+import javassist.bytecode.ExceptionsAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,6 +111,15 @@ public class ReflectUtils {
 			} else {
 				return paramType.cast(paramValue);
 			}
+		}
+	}
+
+	public static <T> T newInstance(Class<T> clazz){
+		try {
+			return clazz.newInstance();
+		} catch (Exception e) {
+			logger.error("创建bean实例失败: {}",clazz.getSimpleName());
+			throw new RuntimeException("创建bean实例失败",e);
 		}
 	}
 }

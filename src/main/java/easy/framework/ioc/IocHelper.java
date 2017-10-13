@@ -31,15 +31,17 @@ public class IocHelper {
 				}
 				for (Field field : fields) {
 					if (field.isAnnotationPresent(Inject.class) || field.isAnnotationPresent(Autowired.class)) {
-						Class<?> implClass;
-						if (field.isAnnotationPresent(Impl.class)) {
-							implClass = field.getAnnotation(Impl.class).value();
-						} else {
-							Set<Class<?>> superClassList = ClassHelper.findClassBySuperClass(field.getType());
-							if (superClassList == null || superClassList.size() == 0) {
-								throw new RuntimeException("没有获取可用的实现类[" + field.getType() + "]");
+						Class<?> implClass = field.getType();
+						if (field.getType().isInterface()) {
+							if (field.isAnnotationPresent(Impl.class)) {
+								implClass = field.getAnnotation(Impl.class).value();
+							} else {
+								Set<Class<?>> implClassList = ClassHelper.findClassBySuperClass(field.getType());
+								if (implClassList == null || implClassList.size() == 0) {
+									throw new RuntimeException("没有获取可用的实现类[" + field.getType() + "]");
+								}
+								implClass = implClassList.iterator().next();
 							}
-							implClass = superClassList.iterator().next();
 						}
 						Object subInstance = BeanHelper.getBeanInstance(implClass);
 						try {

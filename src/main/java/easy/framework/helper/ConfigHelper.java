@@ -28,4 +28,19 @@ public class ConfigHelper {
 	public static String getFileUploadDirectory() {
 		return PropertyUtil.getStringValue(PropertyConfigConstant.FILE_UPLOAD_DIR_NAME, PropertyConfigConstant.FILE_UPLOAD_DIR_NAME_DEFAULT);
 	}
+	public static String getJdbcType() {
+		return PropertyUtil.getStringValue(PropertyConfigConstant.JDBC_TYPE, PropertyConfigConstant.JDBC_TYPE_DEFAULT);
+	}
+	public static String getJdbcDriver() {
+		return PropertyUtil.getStringValue(PropertyConfigConstant.JDBC_DRIVER, PropertyConfigConstant.JDBC_DRIVER_DEFAULT);
+	}
+	public static String getJdbcUrl() {
+		return PropertyUtil.getStringValue(PropertyConfigConstant.JDBC_URL, PropertyConfigConstant.JDBC_URL_DEFAULT);
+	}
+	public static String getJdbcUserName() {
+		return PropertyUtil.getStringValue(PropertyConfigConstant.JDBC_USERNAME, PropertyConfigConstant.JDBC_USERNAME_DEFAULT);
+	}
+	public static String getJdbcPassWord() {
+		return PropertyUtil.getStringValue(PropertyConfigConstant.JDBC_PASSWORD, PropertyConfigConstant.JDBC_PASSWORD_DEFAULT);
+	}
 }

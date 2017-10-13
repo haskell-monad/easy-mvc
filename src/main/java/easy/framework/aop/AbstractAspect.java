@@ -32,7 +32,7 @@ public abstract class AbstractAspect implements Proxy {
 	}
 	protected void after() {
 	}
-	private void begin() {
+	protected void begin() {
 	}
 	protected void end() {
 	}

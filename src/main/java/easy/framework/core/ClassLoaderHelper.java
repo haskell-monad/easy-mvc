@@ -53,6 +53,7 @@ public class ClassLoaderHelper {
 		String packageNamePrefix = packageName.replaceAll("/", ".");
 		while (resources.hasMoreElements()) {
 			URL url = resources.nextElement();
+			logger.debug("=========: {}",url.getProtocol());
 			if (FILE.equals(url.getProtocol())) {
 				loadClassFile(cacheClass, packageNamePrefix, url.getPath());
 			}
@@ -70,8 +71,5 @@ public class ClassLoaderHelper {
 				}
 			}
 		}
-	}
-	public static void main(String[] args) throws Exception {
-		ClassLoaderHelper.scanAllClassByPackageName(PropertyConfigConstant.ROOT_PACKAGE);
 	}
 }

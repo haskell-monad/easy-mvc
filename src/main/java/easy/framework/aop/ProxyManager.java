@@ -23,7 +23,7 @@ public class ProxyManager {
 		enhancer.setCallback(new MethodInterceptor() {
 			@Override
 			public Object intercept(Object targetObj, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-				return new ProxyChain(targetObj, args, aspectClassList, methodProxy).doChain();
+				return new ProxyChain(targetObj,method, args, aspectClassList, methodProxy).doChain();
 			}
 		});
 		T proxyClass = (T) enhancer.create();

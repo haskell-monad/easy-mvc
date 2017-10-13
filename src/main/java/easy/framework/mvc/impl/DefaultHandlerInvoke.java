@@ -1,7 +1,6 @@
 package easy.framework.mvc.impl;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import easy.framework.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +27,7 @@ import easy.framework.mvc.model.FileModel;
 import easy.framework.mvc.model.ParamModel;
 import easy.framework.mvc.model.RequestHandler;
 import easy.framework.mvc.model.RequestParamModel;
+import easy.framework.utils.JsonUtils;
 import easy.framework.utils.ReflectUtils;
 import easy.framework.utils.ServletUtils;
 
@@ -61,14 +60,12 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 		Object[] params = this.builderMethodParam(request, requestHandler);
 		try {
 			Object resultObj = method.invoke(beanInstance, params);
-			logger.debug("**请求执行结果: {}",JsonUtils.toJson(resultObj));
+			logger.debug("[easy-mvc]请求执行结果: {}", JsonUtils.toJson(resultObj));
 			logger.debug("***********请求结束************");
 			HandlerViewResolver viewResolver = InstanceFactory.getHandlerViewResolver();
 			viewResolver.resolver(request, response, resultObj);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new RuntimeException("方法执行异常", e);
 		}
 	}
 	/**
@@ -80,9 +77,9 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 	private Object[] builderMethodParam(HttpServletRequest request, RequestHandler requestHandler) {
 		Method method = requestHandler.getMethod();
 		List<String> methodParamNameList = ReflectUtils.findMethodParamName(method);
-		logger.debug("**方法参数列表: {},{}", method.getName(), methodParamNameList);
+		logger.debug("[easy-mvc]方法参数列表: {},{}", method.getName(), methodParamNameList);
 		String requestPath = ServletUtils.requestPath(request);
-//		int parameterCount = method.getParameterCount();
+		// int parameterCount = method.getParameterCount();
 		List<ParamModel> paramList = this.getMethodParamInfo(method, methodParamNameList);
 		List<ParamModel> requestBodyList = paramList.stream().filter(model -> model.isRequestBody()).collect(Collectors.toList());
 		Map<String, String> pathParamsMap = this.parsePathParams(requestHandler, requestPath);
@@ -116,8 +113,8 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 				paramValueList.add(ReflectUtils.convertValue(paramModel.getParamType(), paramValue));
 			}
 		}
-//		logger.debug("方法参数信息: {}", JsonUtils.toJson(paramList));
-//		logger.debug("方法参数值列表: {}", paramValueList);
+		// logger.debug("方法参数信息: {}", JsonUtils.toJson(paramList));
+		// logger.debug("方法参数值列表: {}", paramValueList);
 		Object[] objects = paramValueList.toArray();
 		return objects;
 	}
