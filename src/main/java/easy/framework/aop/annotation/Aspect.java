@@ -5,7 +5,8 @@ import java.lang.annotation.*;
 import easy.framework.aop.AbstractAspect;
 
 /**
- * Created by limengyu on 2017/9/26.
+ * @author limengyu
+ * @create 2017/9/26
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

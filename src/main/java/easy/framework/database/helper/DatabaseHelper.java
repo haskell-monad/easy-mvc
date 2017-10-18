@@ -6,17 +6,18 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import easy.framework.InstanceFactory;
-import easy.framework.database.datasource.DataSourceFactory;
+import easy.framework.database.ds.AbstractDataSourceFactory;
 
 /**
- * Created by limengyu on 2017/10/12.
+ * @author limengyu
+ * @create 2017/10/12
  */
 public class DatabaseHelper {
-	private final static DataSourceFactory dataSourceFactory = InstanceFactory.getDataSourceFactory();
+	private final static AbstractDataSourceFactory DATASOURCE_FACTORY = InstanceFactory.getDataSourceFactory();
 	private final static ThreadLocal<Connection> THREAD_LOCAL = new ThreadLocal<>();
 
 	public static DataSource getDataSource() {
-		return dataSourceFactory.createDataSource();
+		return DATASOURCE_FACTORY.createDataSource();
 	}
 	public static Connection getConnection() {
 		Connection connection = THREAD_LOCAL.get();

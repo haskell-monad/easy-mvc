@@ -1,3 +1,9 @@
+import com.fasterxml.jackson.core.JsonParser;
+import easy.framework.utils.JsonUtils;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by limengyu on 2017/9/19.
  */
@@ -69,6 +75,13 @@ public class TestMain {
 		// System.out.println(List.class.isAssignableFrom(list.getClass()));
 		// System.out.println(list.getClass().isAssignableFrom(List.class));
 		// System.out.println(list.getClass().isAssignableFrom(FileModel.class));
+
+		//name=giggs&age=&gender=1
+//		System.out.println(JsonUtils.isJson("name=giggs&age=&gender=1"));
+
+		System.out.println(JsonUtils.isJson("{\"name\":\"giggs\",\"age\":11}"));
+		System.out.println(JsonUtils.isJson("[{\"name\":\"giggs\",\"age\":11},{\"name\":\"giggs\",\"age\":11}]"));
 	}
+
 
 }

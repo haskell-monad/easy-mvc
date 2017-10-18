@@ -1,7 +1,8 @@
 package easy.framework.database.dao;
 
 /**
- * Created by limengyu on 2017/10/12.
+ * @author limengyu
+ * @create 2017/10/12
  */
 public interface DataAccessor {
 }

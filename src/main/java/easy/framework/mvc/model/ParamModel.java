@@ -1,8 +1,9 @@
 package easy.framework.mvc.model;
 
 /**
- * Created by limengyu on 2017/9/22.
- *  某个方法的参数信息
+ * 某个方法的参数信息
+ * @author limengyu
+ * @create 2017/09/22
  */
 public class ParamModel {
 	private String paramName;

@@ -1,7 +1,8 @@
 package easy.framework.exception;
 
 /**
- * Created by limengyu on 2017/9/14.
+ * @author limengyu
+ * @create 2017/09/14
  */
 public class BizException extends RuntimeException {
 

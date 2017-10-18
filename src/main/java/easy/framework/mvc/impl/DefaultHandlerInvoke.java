@@ -32,7 +32,8 @@ import easy.framework.utils.ReflectUtils;
 import easy.framework.utils.ServletUtils;
 
 /**
- * Created by limengyu on 2017/9/19.
+ * @author limengyu
+ * @create 2017/09/19
  */
 public class DefaultHandlerInvoke implements HandlerInvoke {
 	private static final Logger logger = LoggerFactory.getLogger(DefaultHandlerInvoke.class);
@@ -79,16 +80,17 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 		List<String> methodParamNameList = ReflectUtils.findMethodParamName(method);
 		logger.debug("[easy-mvc]方法参数列表: {},{}", method.getName(), methodParamNameList);
 		String requestPath = ServletUtils.requestPath(request);
-		// int parameterCount = method.getParameterCount();
 		List<ParamModel> paramList = this.getMethodParamInfo(method, methodParamNameList);
 		List<ParamModel> requestBodyList = paramList.stream().filter(model -> model.isRequestBody()).collect(Collectors.toList());
-		Map<String, String> pathParamsMap = this.parsePathParams(requestHandler, requestPath);
-		Map<String, String> kvParamsMap = ServletUtils.parseQueryParams(request);
-		Map<String, Object> jsonParamsMap = ServletUtils.parseJsonParams(request, requestBodyList);
+		//开始获取参数
 		RequestParamModel requestParamModel = FileUploadHelper.parseFormParam(request);
 		Map<String, List<String>> formParamsMap = requestParamModel.getFormFileMap();
 		List<FileModel> fileList = requestParamModel.getFileList();
-		// checkParamCount(pathParamsMap, kvParamsMap, parameterCount);
+		Map<String, Object> jsonParamsMap = ServletUtils.parseJsonParams(request, requestBodyList);
+		Map<String, List<String>> parameterParamsMap = ServletUtils.parseParameterParams(request);
+		Map<String, String> kvParamsMap = ServletUtils.parseQueryParams(request);
+		Map<String, String> pathParamsMap = this.parsePathParams(requestHandler, requestPath);
+
 		List<Object> paramValueList = new ArrayList<>();
 		if (paramList != null && paramList.size() > 0) {
 			for (ParamModel paramModel : paramList) {
@@ -102,6 +104,8 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 					paramValue = jsonParamsMap.get(paramName);
 				} else if (formParamsMap != null && formParamsMap.containsKey(paramName)) {
 					paramValue = formParamsMap.get(paramName);
+				} else if (parameterParamsMap.containsKey(paramName)) {
+					paramValue = parameterParamsMap.get(paramName);
 				} else if (paramModel.isFileBody() && fileList != null && fileList.size() > 0) {
 					if (List.class.isAssignableFrom(paramModel.getParamType())) {
 						paramValue = fileList;
@@ -113,8 +117,6 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 				paramValueList.add(ReflectUtils.convertValue(paramModel.getParamType(), paramValue));
 			}
 		}
-		// logger.debug("方法参数信息: {}", JsonUtils.toJson(paramList));
-		// logger.debug("方法参数值列表: {}", paramValueList);
 		Object[] objects = paramValueList.toArray();
 		return objects;
 	}
@@ -147,7 +149,7 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 	private Map<String, String> parsePathParams(RequestHandler requestHandler, String requestPath) {
 		List<String> pathParams = requestHandler.getPathParams();
 		List<String> pathParamsValue = requestHandler.matchGroup(requestPath);
-		Map<String, String> params = new HashMap<>();
+		Map<String, String> params = new HashMap<>(16);
 		if (pathParams == null || pathParamsValue == null) {
 			return params;
 		}

@@ -18,10 +18,13 @@ import easy.framework.mvc.model.Result;
 import easy.framework.mvc.model.View;
 
 /**
- * Created by limengyu on 2017/9/19.
+ * @author limengyu
+ * @create 2017/09/19
  */
 public class DefaultHandlerViewResolver implements HandlerViewResolver {
 	private static final Logger logger = LoggerFactory.getLogger(DefaultHandlerViewResolver.class);
+
+	private static final String REDIRECT_PREFIX = "/";
 
 	@Override
 	public void resolver(HttpServletRequest request, HttpServletResponse response, Object resultObj) {
@@ -32,7 +35,7 @@ public class DefaultHandlerViewResolver implements HandlerViewResolver {
 		if (resultObj instanceof View) {
 			// redirect/jsp
 			View view = (View) resultObj;
-			if (view.getPath().startsWith("/")) {
+			if (view.getPath().startsWith(REDIRECT_PREFIX)) {
 				this.redirect(view.getPath(), request, response);
 			} else {
 				if (view.getParams() != null && view.getParams().size() > 0) {

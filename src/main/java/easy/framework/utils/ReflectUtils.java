@@ -4,43 +4,58 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import easy.framework.mvc.annotation.PathVariable;
-import javassist.bytecode.ExceptionsAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javassist.*;
+import javassist.ClassClassPath;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
+import javassist.Modifier;
+import javassist.NotFoundException;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
 import javassist.bytecode.MethodInfo;
 
 /**
- * Created by limengyu on 2017/9/20.
+ * @author limengyu
+ * @create 2017/9/20
  */
 public class ReflectUtils {
 	private static final Logger logger = LoggerFactory.getLogger(ReflectUtils.class);
 
-	public static List<String> findMethodParamName(Method method){
+	public enum DATA_TYPE {
+		BYTE("byte"), SHORT("short"), INT("int"), LONG("long"), DOUBLE("double"), FLOAT("float"), BOOLEAN("boolean");
+		private String code;
+
+		DATA_TYPE(String code) {
+			this.code = code;
+		}
+		public String getCode() {
+			return code;
+		}
+	}
+
+	public static List<String> findMethodParamName(Method method) {
 		List<String> paramNameList = new ArrayList<>();
 		Class clazz = method.getDeclaringClass();
 		String methodName = method.getName();
 		ClassPool pool = ClassPool.getDefault();
 		pool.insertClassPath(new ClassClassPath(clazz));
-        CtClass cc = null;
-        CtMethod cm = null;
-        CtClass[] parameterTypes = null;
-        try {
-            cc = pool.get(clazz.getName());
-            cm = cc.getDeclaredMethod(methodName);
-            parameterTypes = cm.getParameterTypes();
-        } catch (NotFoundException e) {
-            return paramNameList;
-        }
+		CtClass cc;
+		CtMethod cm;
+		CtClass[] parameterTypes;
+		try {
+			cc = pool.get(clazz.getName());
+			cm = cc.getDeclaredMethod(methodName);
+			parameterTypes = cm.getParameterTypes();
+		} catch (NotFoundException e) {
+			return paramNameList;
+		}
 		MethodInfo methodInfo = cm.getMethodInfo();
 		CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
 		LocalVariableAttribute attr = (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
 		if (attr == null) {
-//			logger.debug("method [{}] no params", method.getName());
 			return paramNameList;
 		}
 		String[] paramNames = new String[parameterTypes.length];
@@ -49,14 +64,12 @@ public class ReflectUtils {
 		for (int i = 0; i < paramNames.length; i++) {
 			paramNames[i] = attr.variableName(i + pos);
 			signatures[i] = attr.signature(i + pos);
-//			logger.debug("signatures: {}", signatures[i]);
 		}
 		for (int i = 0; i < paramNames.length; i++) {
 			paramNameList.add(paramNames[i]);
 		}
 		return paramNameList;
 	}
-
 	/**
 	 * 转换参数类型
 	 * @param paramType
@@ -75,19 +88,19 @@ public class ReflectUtils {
 			param = (String) paramValue;
 		}
 		if (paramType.isPrimitive()) {
-			if (paramType.getName().equals("byte")) {
+			if (DATA_TYPE.BYTE.getCode().equals(paramType.getName())) {
 				return Integer.parseInt(param);
-			} else if (paramType.getName().equals("short")) {
+			} else if (DATA_TYPE.SHORT.getCode().equals(paramType.getName())) {
 				return Short.parseShort(param);
-			} else if (paramType.getName().equals("int")) {
+			} else if (DATA_TYPE.INT.getCode().equals(paramType.getName())) {
 				return Integer.parseInt(param);
-			} else if (paramType.getName().equals("long")) {
+			} else if (DATA_TYPE.LONG.getCode().equals(paramType.getName())) {
 				return Long.parseLong(param);
-			} else if (paramType.getName().equals("double")) {
+			} else if (DATA_TYPE.DOUBLE.getCode().equals(paramType.getName())) {
 				return Double.parseDouble(param);
-			} else if (paramType.getName().equals("float")) {
+			} else if (DATA_TYPE.FLOAT.getCode().equals(paramType.getName())) {
 				return Float.parseFloat(param);
-			} else if (paramType.getName().equals("bool")) {
+			} else if (DATA_TYPE.BOOLEAN.getCode().equals(paramType.getName())) {
 				return Boolean.parseBoolean(param);
 			} else {
 				logger.error("paramValue: {},paramType: {}", paramValue, paramType);
@@ -113,13 +126,12 @@ public class ReflectUtils {
 			}
 		}
 	}
-
-	public static <T> T newInstance(Class<T> clazz){
+	public static <T> T newInstance(Class<T> clazz) {
 		try {
 			return clazz.newInstance();
 		} catch (Exception e) {
-			logger.error("创建bean实例失败: {}",clazz.getSimpleName());
-			throw new RuntimeException("创建bean实例失败",e);
+			logger.error("创建bean实例失败: {}", clazz.getSimpleName());
+			throw new RuntimeException("创建bean实例失败", e);
 		}
 	}
 }

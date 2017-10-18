@@ -14,7 +14,8 @@ import easy.framework.annotation.Inject;
 import easy.framework.core.ClassHelper;
 
 /**
- * Created by limengyu on 2017/9/13.
+ * @author limengyu
+ * @create 2017/09/13
  */
 public class IocHelper {
 	private static final Logger logger = LoggerFactory.getLogger(IocHelper.class);
@@ -32,11 +33,11 @@ public class IocHelper {
 				for (Field field : fields) {
 					if (field.isAnnotationPresent(Inject.class) || field.isAnnotationPresent(Autowired.class)) {
 						Class<?> implClass = field.getType();
-						if (field.getType().isInterface()) {
+						if (implClass.isInterface()) {
 							if (field.isAnnotationPresent(Impl.class)) {
 								implClass = field.getAnnotation(Impl.class).value();
 							} else {
-								Set<Class<?>> implClassList = ClassHelper.findClassBySuperClass(field.getType());
+								Set<Class<?>> implClassList = ClassHelper.findClassBySuperClass(implClass);
 								if (implClassList == null || implClassList.size() == 0) {
 									throw new RuntimeException("没有获取可用的实现类[" + field.getType() + "]");
 								}
@@ -48,7 +49,7 @@ public class IocHelper {
 							field.setAccessible(true);
 							field.set(mainInstance, subInstance);
 						} catch (IllegalAccessException e) {
-							throw new RuntimeException("注入失败");
+							throw new RuntimeException("依赖注入["+clazz.getName()+"]["+field.getName()+"]失败",e);
 						}
 					}
 				}

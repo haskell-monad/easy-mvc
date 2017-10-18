@@ -6,9 +6,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by limengyu on 2017/9/18.
+ * @author limengyu
+ * @create 2017/09/18
  */
 public interface HandlerInvoke {
 
-    public void invoke(HttpServletRequest request,HttpServletResponse response,RequestHandler requestHandler);
+    /**
+     * 执行方法
+     * @param request
+     * @param response
+     * @param requestHandler
+     */
+    void invoke(HttpServletRequest request,HttpServletResponse response,RequestHandler requestHandler);
 }

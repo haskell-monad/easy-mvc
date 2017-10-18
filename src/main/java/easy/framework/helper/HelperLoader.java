@@ -9,13 +9,14 @@ import easy.framework.ioc.IocHelper;
 import easy.framework.mvc.helper.ControllerHelper;
 
 /**
- * Created by limengyu on 2017/9/18.
+ * @author limengyu
+ * @create 2017/09/18
  */
 public class HelperLoader {
     public static void init() {
         Class[] helper = {
-                DatabaseHelper.class,
                 ClassHelper.class,
+                DatabaseHelper.class,
                 BeanHelper.class,
                 ControllerHelper.class,
                 AopHelper.class,

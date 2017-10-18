@@ -7,34 +7,34 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import easy.framework.common.PropertyConfigConstant;
+import easy.framework.helper.ConfigHelper;
 
 /**
- * Created by limengyu on 2017/9/13.
+ * @author limengyu
+ * @create 2017/9/13
  */
 public class ClassHelper {
 	private static final Logger logger = LoggerFactory.getLogger(ClassHelper.class);
-	public static Set<Class<?>> allClass;
+	public static final Set<Class<?>> ALL_CLASS;
 	static {
-		allClass = ClassLoaderHelper.scanAllClassByPackageName(PropertyConfigConstant.ROOT_PACKAGE);
+		logger.debug("=========开始加载class文件==========");
+		ALL_CLASS = ClassLoaderHelper.scanAllClassByPackageName(ConfigHelper.getAppBasePackage());
 	}
 
-    /**
-     * 获取所有类实例
-     * @return
-     */
-    public static Set<Class<?>> getAllClass(){
-        return allClass;
-    }
-
+	/**
+	 * 获取所有类实例
+	 * @return
+	 */
+	public static Set<Class<?>> getAllClass() {
+		return ALL_CLASS;
+	}
 	/**
 	 * 根据注解获取相关类实例
 	 * @param annotation
 	 * @return
 	 */
 	public static Set<Class<?>> findClassByAnnotation(Class<? extends Annotation> annotation) {
-		Set<Class<?>> result = allClass.stream().filter(clazz -> clazz.isAnnotationPresent(annotation)).collect(Collectors.toSet());
-//		logger.debug("根据注解[{}]获取所有类: {}", annotation, result);
+		Set<Class<?>> result = ALL_CLASS.stream().filter(clazz -> clazz.isAnnotationPresent(annotation)).collect(Collectors.toSet());
 		return result;
 	}
 	/**
@@ -43,10 +43,11 @@ public class ClassHelper {
 	 * @return
 	 */
 	public static Set<Class<?>> findClassBySuperClass(Class<?> superClazz) {
-
-		//isAssignableFrom 用来判断一个类superClazz和另一个类clazz是否相同或是另一个类的超类或接口
-		Set<Class<?>> result = allClass.stream().filter(clazz -> superClazz.isAssignableFrom(clazz) && !superClazz.equals(clazz)).collect(Collectors.toSet());
-//		logger.debug("获取类[{}]所有的子类: {}", superClazz.getSimpleName(), result);
+		// isAssignableFrom 用来判断一个类superClazz和另一个类clazz是否相同或是另一个类的超类或接口
+		Set<Class<?>> result = ALL_CLASS.stream().filter(clazz -> superClazz.isAssignableFrom(clazz) && !superClazz.equals(clazz)).collect(Collectors.toSet());
 		return result;
+	}
+	public static void main(String[] args) {
+		ClassHelper.getAllClass();
 	}
 }

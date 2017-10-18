@@ -3,7 +3,8 @@ package easy.framework.annotation;
 import java.lang.annotation.*;
 
 /**
- * Created by limengyu on 2017/9/13.
+ * @author limengyu
+ * @create 2017/9/13
  */
 @Target(value = ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

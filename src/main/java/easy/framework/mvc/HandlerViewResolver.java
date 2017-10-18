@@ -4,8 +4,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by limengyu on 2017/9/18.
+ * @author limengyu
+ * @create 2017/09/18
  */
 public interface HandlerViewResolver {
-	public void resolver(HttpServletRequest request, HttpServletResponse response, Object resultObj);
+	/**
+	 * 处理请求响应
+	 * @param request
+	 * @param response
+	 * @param resultObj
+	 */
+	void resolver(HttpServletRequest request, HttpServletResponse response, Object resultObj);
 }

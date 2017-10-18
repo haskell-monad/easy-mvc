@@ -6,7 +6,8 @@ import easy.framework.mvc.model.RequestHandler;
 import easy.framework.mvc.model.RequestModel;
 
 /**
- * Created by limengyu on 2017/9/19.
+ * @author limengyu
+ * @create 2017/09/19
  */
 public class DefaultHandlerMapping implements HandlerMapping {
 

@@ -7,19 +7,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import easy.framework.mvc.common.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import easy.framework.annotation.Controller;
 import easy.framework.core.ClassHelper;
 import easy.framework.mvc.annotation.Action;
+import easy.framework.mvc.common.Constant;
 import easy.framework.mvc.common.RequestMethod;
 import easy.framework.mvc.model.RequestHandler;
 import easy.framework.mvc.model.RequestModel;
 
 /**
- * Created by limengyu on 2017/9/13.
+ * @author limengyu
+ * @create 2017/09/13
  */
 public class ControllerHelper {
 	private static final Logger logger = LoggerFactory.getLogger(ControllerHelper.class);
@@ -64,7 +65,7 @@ public class ControllerHelper {
 					controllerModel.setPattern(Pattern.compile(pattern));
 					controllerModel.setPathParams(requestModel.pathParams());
 				}
-//				logger.debug("request-path: {}\t{}\t{}", requestModel.getMethod(), requestModel.getPath(), controllerModel.getPattern() == null ? null : controllerModel.getPattern().pattern());
+//				logger.debug("请求映射: {}\t{}\t{}", requestModel.getMethod(), requestModel.getPath(), controllerModel.getPattern() == null ? null : controllerModel.getPattern().pattern())
 				handlerMap.put(requestModel, controllerModel);
 			}
 		}
@@ -80,10 +81,29 @@ public class ControllerHelper {
 			if (!model.getMethod().equalsIgnoreCase(requestModel.getMethod())) {
 				continue;
 			}
-			if (model.getPath().equals(requestModel.getPath()) || (model.isRegex() && handler.match(requestModel.getPath()))) {
+			if (isMatchMethodPath(model.getPath(), requestModel.getPath()) || (isMatchMethodRegex(handler, model.isRegex(), requestModel.getPath()))) {
 				return handler;
 			}
 		}
 		return null;
+	}
+	/**
+	 * 请求地址是否匹配方法的路由地址
+	 * @param methodPath
+	 * @param requestPath
+	 * @return
+	 */
+	private static boolean isMatchMethodPath(String methodPath, String requestPath) {
+		return methodPath.equals(requestPath);
+	}
+	/**
+	 * 方法是正则路由 并且 正则匹配请求地址
+	 * @param handler
+	 * @param isRegex
+	 * @param requestPath
+	 * @return
+	 */
+	private static boolean isMatchMethodRegex(RequestHandler handler, boolean isRegex, String requestPath) {
+		return isRegex && handler.match(requestPath);
 	}
 }

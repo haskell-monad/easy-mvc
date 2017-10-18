@@ -1,7 +1,8 @@
 package easy.framework.mvc.common;
 
 /**
- * Created by limengyu on 2017/9/25.
+ * @author limengyu
+ * @create 2017/09/25
  */
 public class Constant {
     public static final String DEFAULT_ENCODE = "utf-8";

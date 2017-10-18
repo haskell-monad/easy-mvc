@@ -3,7 +3,8 @@ package easy.framework.mvc.model;
 import java.util.Map;
 
 /**
- * Created by limengyu on 2017/9/18.
+ * @author limengyu
+ * @create 2017/09/18
  */
 public class View {
 	private String path;

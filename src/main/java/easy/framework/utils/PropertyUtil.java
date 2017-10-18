@@ -6,7 +6,8 @@ import java.util.Properties;
 import easy.framework.common.PropertyConfigConstant;
 
 /**
- * Created by limengyu on 2017/8/21.
+ * @author limengyu
+ * @create 2017/8/21
  */
 public class PropertyUtil {
 	private static Properties properties = new Properties();
@@ -14,7 +15,7 @@ public class PropertyUtil {
 		try {
 			properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(PropertyConfigConstant.CONFIG_FILE_NAME));
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException("读取配置文件["+PropertyConfigConstant.CONFIG_FILE_NAME+"]异常",e);
 		}
 	}
 
@@ -30,10 +31,10 @@ public class PropertyUtil {
 	public static Long getLongValue(String key) {
 		return getStringValue(key) == null ? null : Long.valueOf(getStringValue(key));
 	}
-	public static Long getLongValue(String key,long defaultValue) {
+	public static Long getLongValue(String key, long defaultValue) {
 		return getStringValue(key) == null ? defaultValue : Long.valueOf(getStringValue(key));
 	}
-	public static long getLongDefaultValue(String key,long defaultValue) {
+	public static long getLongDefaultValue(String key, long defaultValue) {
 		return getStringValue(key) == null ? defaultValue : Long.parseLong(getStringValue(key));
 	}
 	public static Double getDoubleValue(String key) {

@@ -11,19 +11,20 @@ import easy.framework.database.helper.DatabaseHelper;
 import easy.framework.transaction.annotation.Transaction;
 
 /**
- * Created by limengyu on 2017/10/12.
+ * @author limengyu
+ * @create 2017/10/12
  */
 public class TransactionProxy implements Proxy {
 	private static final Logger logger = LoggerFactory.getLogger(TransactionProxy.class);
-	private static final ThreadLocal<Boolean> transaction_start_flag = ThreadLocal.withInitial(() -> Boolean.FALSE);
+	private static final ThreadLocal<Boolean> TRANSACTION_START_FLAG = ThreadLocal.withInitial(() -> Boolean.FALSE);
 
 	@Override
 	public Object doProxy(ProxyChain proxyChain) {
 		Object result = null;
 		Method method = proxyChain.getMethod();
-		if (method.isAnnotationPresent(Transaction.class) && Boolean.FALSE.equals(transaction_start_flag.get())) {
+		if (method.isAnnotationPresent(Transaction.class) && Boolean.FALSE.equals(TRANSACTION_START_FLAG.get())) {
 			// 启用了事务
-			transaction_start_flag.set(Boolean.TRUE);
+			TRANSACTION_START_FLAG.set(Boolean.TRUE);
 			try {
 				DatabaseHelper.beginTransaction();
 				logger.info("[easy-mvc]启动事务");
@@ -35,7 +36,7 @@ public class TransactionProxy implements Proxy {
 				logger.info("[easy-mvc]回滚事务");
 				throw new RuntimeException("执行方法发生异常", e);
 			} finally {
-				transaction_start_flag.remove();
+				TRANSACTION_START_FLAG.remove();
 			}
 		} else {
 			result = proxyChain.doChain();

@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by limengyu on 2017/9/25.
+ * @author limengyu
+ * @create 2017/09/25
  */
 public class RequestParamModel {
 	private Map<String, List<String>> formFileMap;

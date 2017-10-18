@@ -7,8 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import easy.framework.common.PropertyConfigConstant;
 import easy.framework.core.ClassLoaderHelper;
-import easy.framework.database.datasource.DataSourceFactory;
-import easy.framework.database.datasource.pool.DbcpDataSourceFactory;
+import easy.framework.database.ds.AbstractDataSourceFactory;
+import easy.framework.database.ds.pool.DbcpDataSourceFactory;
 import easy.framework.helper.ConfigHelper;
 import easy.framework.mvc.HandlerInvoke;
 import easy.framework.mvc.HandlerMapping;
@@ -18,10 +18,11 @@ import easy.framework.mvc.impl.DefaultHandlerMapping;
 import easy.framework.mvc.impl.DefaultHandlerViewResolver;
 
 /**
- * Created by limengyu on 2017/9/19.
+ * @author limengyu
+ * @create 2017/09/19
  */
 public class InstanceFactory {
-	private static final Map<String, Object> cacheBeanMap = new ConcurrentHashMap<>();
+	private static final Map<String, Object> CACHE_BEAN_MAP = new ConcurrentHashMap<>();
 
 	public static HandlerMapping getHandlerMapping() {
 		return getInstance(PropertyConfigConstant.HANDLER_MAPPING_KEY, DefaultHandlerMapping.class);
@@ -32,13 +33,13 @@ public class InstanceFactory {
 	public static HandlerViewResolver getHandlerViewResolver() {
 		return getInstance(PropertyConfigConstant.HANDLER_VIEW_RESOLVER_KEY, DefaultHandlerViewResolver.class);
 	}
-	public static DataSourceFactory getDataSourceFactory() {
+	public static AbstractDataSourceFactory getDataSourceFactory() {
 		return getInstance(PropertyConfigConstant.DATASOURCE_KEY, DbcpDataSourceFactory.class);
 	}
 	private static <T> T getInstance(String cacheKey, Class<T> clazz) {
 		try {
-			if (cacheBeanMap.containsKey(cacheKey)) {
-				return (T) cacheBeanMap.get(cacheKey);
+			if (CACHE_BEAN_MAP.containsKey(cacheKey)) {
+				return (T) CACHE_BEAN_MAP.get(cacheKey);
 			}
 			String configValue = ConfigHelper.getConfigValue(cacheKey);
 			T t;
@@ -48,10 +49,10 @@ public class InstanceFactory {
 			} else {
 				t = clazz.newInstance();
 			}
-			cacheBeanMap.put(cacheKey, t);
+			CACHE_BEAN_MAP.put(cacheKey, t);
 			return t;
 		} catch (Exception e) {
-			throw new RuntimeException("获取实例异常");
+			throw new RuntimeException("获取实例异常",e);
 		}
 	}
 }

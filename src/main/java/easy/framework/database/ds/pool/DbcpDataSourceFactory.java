@@ -1,4 +1,4 @@
-package easy.framework.database.datasource.pool;
+package easy.framework.database.ds.pool;
 
 import java.util.Properties;
 
@@ -6,12 +6,13 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSourceFactory;
 
-import easy.framework.database.datasource.DataSourceFactory;
+import easy.framework.database.ds.AbstractDataSourceFactory;
 
 /**
- * Created by limengyu on 2017/10/12.
+ * @author limengyu
+ * @create 2017/10/12
  */
-public class DbcpDataSourceFactory extends DataSourceFactory {
+public class DbcpDataSourceFactory extends AbstractDataSourceFactory {
 	@Override
 	protected DataSource getDataSource(Properties properties) throws Exception {
 		return BasicDataSourceFactory.createDataSource(properties);

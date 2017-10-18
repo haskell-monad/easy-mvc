@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Created by limengyu on 2017/9/18.
+ * @author limengyu
+ * @create 2017/09/18
  */
 public class RequestModel {
 	private String path;
@@ -45,5 +48,17 @@ public class RequestModel {
 			requestPath = requestPath.substring(requestPath.indexOf("}") + 1, requestPath.length());
 		}
 		return params;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+	@Override
+	public String toString() {
+		return "RequestModel{" + "path='" + path + '\'' + ", method='" + method + '\'' + '}';
 	}
 }

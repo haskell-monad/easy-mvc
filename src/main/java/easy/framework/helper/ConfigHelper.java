@@ -1,14 +1,26 @@
 package easy.framework.helper;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import easy.framework.common.PropertyConfigConstant;
 import easy.framework.utils.PropertyUtil;
 
 /**
- * Created by limengyu on 2017/8/21.
+ * @author limengyu
+ * @create 2017/08/21
  */
 public class ConfigHelper {
-	public static String getBasePackage() {
-		return PropertyUtil.getStringValue(PropertyConfigConstant.BASE_PACKAGE_CONFIG, PropertyConfigConstant.BASE_PACKAGE_CONFIG_DEFAULT);
+	private static final Logger logger = LoggerFactory.getLogger(ConfigHelper.class);
+
+	public static String getAppBasePackage() {
+		String basePackage = PropertyUtil.getStringValue(PropertyConfigConstant.APP_BASE_PACKAGE_CONFIG);
+		if (StringUtils.isBlank(basePackage)) {
+			logger.error("缺少配置项: {}", PropertyConfigConstant.APP_BASE_PACKAGE_CONFIG);
+			throw new RuntimeException("缺少配置项: "+PropertyConfigConstant.APP_BASE_PACKAGE_CONFIG+"");
+		}
+		return basePackage;
 	}
 	public static String getJspDir() {
 		return PropertyUtil.getStringValue(PropertyConfigConstant.JSP_DIR_CONFIG, PropertyConfigConstant.JSP_DIR_CONFIG_DEFAULT);

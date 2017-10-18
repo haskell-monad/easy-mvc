@@ -10,7 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by limengyu on 2017/9/18.
+ * @author limengyu
+ * @create 2017/09/18
  */
 public class RequestHandler {
 	private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
@@ -26,7 +27,6 @@ public class RequestHandler {
 		this.pattern = pattern;
 	}
 	public boolean match(String subPath) {
-//		logger.debug("pattern: {}\tsubPath: {}", pattern.pattern(), subPath);
 		return pattern != null && pattern.matcher(subPath).matches();
 	}
     public List<String> matchGroup(String subPath) {
@@ -36,7 +36,6 @@ public class RequestHandler {
         }
         Matcher matcher = pattern.matcher(subPath);
 		int count = matcher.groupCount();
-//		logger.debug("pattern: {}\tsubPath: {}\tcount: {}", pattern.pattern(), subPath,count);
 		if(matcher.matches() && count > 0){
 			for (int i = 1; i <= count; i++) {
 				result.add(matcher.group(i));

@@ -3,7 +3,8 @@ package easy.framework.mvc.annotation;
 import java.lang.annotation.*;
 
 /**
- * Created by limengyu on 2017/9/18.
+ * @author limengyu
+ * @create 2017/09/18
  */
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)

@@ -20,11 +20,12 @@ import easy.framework.transaction.aspect.TransactionProxy;
 import easy.framework.utils.ReflectUtils;
 
 /**
- * Created by limengyu on 2017/9/26.
+ * @author limengyu
+ * @create 2017/9/26
  */
 public class AopHelper {
 	private static final Logger logger = LoggerFactory.getLogger(AopHelper.class);
-	private static final Map<Class<?>, List<Proxy>> targetClassProxy = new HashMap<>();
+	private static final Map<Class<?>, List<Proxy>> TARGET_CLASS_PROXY = new HashMap<>();
 	static {
 		findAbstractProxy();
 		findTransactionProxy();
@@ -40,7 +41,7 @@ public class AopHelper {
 				for (Class<? extends Proxy> aspectClass : aspectList) {
 					aspectClassList.add(ReflectUtils.newInstance(aspectClass));
 				}
-				targetClassProxy.put(targetClass, aspectClassList);
+				TARGET_CLASS_PROXY.put(targetClass, aspectClassList);
 			}
 		}
 	}
@@ -54,20 +55,20 @@ public class AopHelper {
 			for (Method method : methods) {
 				if (method.isAnnotationPresent(Transaction.class)) {
 					List<Proxy> targetClassProxyList;
-					if (targetClassProxy.containsKey(targetClass)) {
-						targetClassProxyList = targetClassProxy.get(targetClass);
+					if (TARGET_CLASS_PROXY.containsKey(targetClass)) {
+						targetClassProxyList = TARGET_CLASS_PROXY.get(targetClass);
 					} else {
 						targetClassProxyList = new ArrayList<>();
 					}
 					targetClassProxyList.add(ReflectUtils.newInstance(TransactionProxy.class));
-					targetClassProxy.put(targetClass, targetClassProxyList);
+					TARGET_CLASS_PROXY.put(targetClass, targetClassProxyList);
 				}
 			}
 		}
 	}
 	private static void loadTargetClassProxy() {
-		if (targetClassProxy != null && targetClassProxy.size() > 0) {
-			targetClassProxy.forEach((targetClass, aspectClassList) -> {
+		if (TARGET_CLASS_PROXY != null && TARGET_CLASS_PROXY.size() > 0) {
+			TARGET_CLASS_PROXY.forEach((targetClass, aspectClassList) -> {
 				Object proxyClass = ProxyManager.createProxy(targetClass, aspectClassList);
 				BeanHelper.putBeanInstance(targetClass, proxyClass);
 			});

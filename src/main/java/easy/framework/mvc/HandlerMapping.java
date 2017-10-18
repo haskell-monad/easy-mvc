@@ -3,8 +3,15 @@ package easy.framework.mvc;
 import easy.framework.mvc.model.RequestHandler;
 
 /**
- * Created by limengyu on 2017/9/18.
+ * @author limengyu
+ * @create 2017/09/18
  */
 public interface HandlerMapping {
-	public RequestHandler getRequestHandler(String requestPath, String requestMethod);
+	/**
+	 * 获取请求对应的handler
+	 * @param requestPath
+	 * @param requestMethod
+	 * @return
+	 */
+	RequestHandler getRequestHandler(String requestPath, String requestMethod);
 }

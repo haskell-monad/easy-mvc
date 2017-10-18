@@ -10,7 +10,8 @@ import easy.framework.aop.Proxy;
 import net.sf.cglib.proxy.MethodProxy;
 
 /**
- * Created by limengyu on 2017/9/26.
+ * @author limengyu
+ * @create 2017/9/26
  */
 public class ProxyChain {
 	private static final Logger logger = LoggerFactory.getLogger(ProxyChain.class);
@@ -35,7 +36,6 @@ public class ProxyChain {
 		Object result;
 		int nextIndex = this.nextAspectChain();
 		if (nextIndex <= chainCount) {
-			// logger.debug("一共有{}个ProxyChain.开始执行第{}个Chain", chainCount, nextIndex);
 			result = aspectClassList.get(nextIndex - 1).doProxy(this);
 		} else {
 			try {

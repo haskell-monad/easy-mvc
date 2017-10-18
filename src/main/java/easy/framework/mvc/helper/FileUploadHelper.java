@@ -22,7 +22,8 @@ import easy.framework.mvc.model.RequestParamModel;
 import easy.framework.utils.JsonUtils;
 
 /**
- * Created by limengyu on 2017/9/25.
+ * @author limengyu
+ * @create 2017/09/25
  */
 public class FileUploadHelper {
 	private final static Logger logger = LoggerFactory.getLogger(FileUploadHelper.class);
@@ -39,7 +40,7 @@ public class FileUploadHelper {
 		fileUpload.setFileSizeMax(ConfigHelper.getFileUploadSingleFileMaxSize());
 	}
 	public static boolean isMultipart(HttpServletRequest request) {
-		return fileUpload.isMultipartContent(request);
+		return ServletFileUpload.isMultipartContent(request);
 	}
 	public static RequestParamModel parseFormParam(HttpServletRequest req) {
 		RequestParamModel paramModel = new RequestParamModel();
@@ -47,14 +48,14 @@ public class FileUploadHelper {
 		if (!isMultipart) {
 			return paramModel;
 		}
-		Map<String, List<String>> formFieldMap = new HashMap<>();
+		Map<String, List<String>> formFieldMap = new HashMap<>(16);
 		List<FileModel> fileList = new ArrayList<>();
 		// 开始解析请求信息
 		List<FileItem> items;
 		try {
 			items = fileUpload.parseRequest(req);
 		} catch (FileUploadException e) {
-			throw new RuntimeException("文件上传失败");
+			throw new RuntimeException("文件上传失败",e);
 		}
 		// 对所有请求信息进行判断
 		Iterator<FileItem> iterator = items.iterator();
@@ -80,7 +81,7 @@ public class FileUploadHelper {
 				try {
 					uploadModel.setInputStream(fileItem.getInputStream());
 				} catch (IOException e) {
-					throw new RuntimeException("获取文件数据流失败");
+					throw new RuntimeException("获取文件数据流失败",e);
 				}
 				fileList.add(uploadModel);
 			}

@@ -3,7 +3,8 @@ package easy.framework.aop;
 import easy.framework.aop.model.ProxyChain;
 
 /**
- * Created by limengyu on 2017/9/26.
+ * @author limengyu
+ * @create 2017/9/26
  */
 public abstract class AbstractAspect implements Proxy {
 	@Override

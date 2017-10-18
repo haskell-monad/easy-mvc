@@ -12,7 +12,8 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 /**
- * Created by limengyu on 2017/9/26.
+ * @author limengyu
+ * @create 2017/9/26
  */
 public class ProxyManager {
 	private static final Logger logger = LoggerFactory.getLogger(ProxyManager.class);
