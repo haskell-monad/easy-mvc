@@ -200,6 +200,8 @@ easy.mvc.base.package=easy.mvc
 easy.mvc.web.jsp.dir=/WEB-INF/views
 #静态文件映射目录
 easy.mvc.web.static.dir=/static
+#首页（默认/index.html）
+easy.mvc.web.home.page=/index.html
 #数据库配置(目前只支持mysql)
 easy.mvc.jdbc.type=MYSQL
 easy.mvc.jdbc.driver=com.mysql.cj.jdbc.Driver
