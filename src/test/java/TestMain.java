@@ -1,8 +1,7 @@
-import com.fasterxml.jackson.core.JsonParser;
-import easy.framework.utils.JsonUtils;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by limengyu on 2017/9/19.
@@ -75,13 +74,14 @@ public class TestMain {
 		// System.out.println(List.class.isAssignableFrom(list.getClass()));
 		// System.out.println(list.getClass().isAssignableFrom(List.class));
 		// System.out.println(list.getClass().isAssignableFrom(FileModel.class));
-
-		//name=giggs&age=&gender=1
-//		System.out.println(JsonUtils.isJson("name=giggs&age=&gender=1"));
-
-		System.out.println(JsonUtils.isJson("{\"name\":\"giggs\",\"age\":11}"));
-		System.out.println(JsonUtils.isJson("[{\"name\":\"giggs\",\"age\":11},{\"name\":\"giggs\",\"age\":11}]"));
+		// name=giggs&age=&gender=1
+		// System.out.println(JsonUtils.isJson("name=giggs&age=&gender=1"));
+		// System.out.println(JsonUtils.isJson("{\"name\":\"giggs\",\"age\":11}"));
+		// System.out.println(JsonUtils.isJson("[{\"name\":\"giggs\",\"age\":11},{\"name\":\"giggs\",\"age\":11}]"));
+		Set<Integer> all = new HashSet<>();
+		Set<Integer> set = new HashSet<>(1);
+		all.addAll(set);
+		List<Integer> collect = all.stream().filter(item -> item != null).collect(Collectors.toList());
+		System.out.println("===" + (collect == null) + "==" + collect.size());
 	}
-
-
 }

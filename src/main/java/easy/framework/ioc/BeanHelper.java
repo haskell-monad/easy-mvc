@@ -35,6 +35,12 @@ public class BeanHelper {
 		}
 		return (T) BEAN_MAP.get(clazz);
 	}
+	public static <T> boolean containBean(Class<T> clazz) {
+		if (!BEAN_MAP.containsKey(clazz)) {
+			return false;
+		}
+		return true;
+	}
 	public static void putBeanInstance(Class<?> beanClass) {
 		BEAN_MAP.put(beanClass, ReflectUtils.newInstance(beanClass));
 	}

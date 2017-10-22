@@ -7,6 +7,7 @@ import easy.framework.database.helper.DatabaseHelper;
 import easy.framework.ioc.BeanHelper;
 import easy.framework.ioc.IocHelper;
 import easy.framework.mvc.helper.ControllerHelper;
+import easy.framework.orm.helper.OrmHelper;
 
 /**
  * @author limengyu
@@ -17,6 +18,7 @@ public class HelperLoader {
         Class[] helper = {
                 ClassHelper.class,
                 DatabaseHelper.class,
+                OrmHelper.class,
                 BeanHelper.class,
                 ControllerHelper.class,
                 AopHelper.class,

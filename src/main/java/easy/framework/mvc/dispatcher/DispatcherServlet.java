@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import easy.framework.helper.ConfigHelper;
+import easy.framework.mvc.HandlerExceptionResolver;
 import easy.framework.mvc.common.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,9 +42,25 @@ public class DispatcherServlet extends HttpServlet {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		String requestPath = ServletUtils.requestPath(request);
+		if(Constant.ROOT_PATH.equals(requestPath)){
+			ServletUtils.redirect(ConfigHelper.getHomePage(),request,response);
+			return;
+		}
 		HandlerMapping handlerMapping = InstanceFactory.getHandlerMapping();
 		HandlerInvoke handlerInvoke = InstanceFactory.getHandlerInvoke();
-		RequestHandler requestHandler = handlerMapping.getRequestHandler(requestPath, request.getMethod());
-		handlerInvoke.invoke(request, response, requestHandler);
+		HandlerExceptionResolver handlerExceptionResolver = InstanceFactory.getHandlerExceptionResolver();
+		try {
+			RequestHandler requestHandler = handlerMapping.getRequestHandler(requestPath, request.getMethod());
+			if (requestHandler == null) {
+				ServletUtils.sendError(HttpServletResponse.SC_NOT_FOUND,"资源映射不存在",response);
+				return;
+			}
+			handlerInvoke.invoke(request, response, requestHandler);
+		}catch (Exception e){
+			handlerExceptionResolver.resolveHandlerException(request,response,e);
+		}finally {
+
+		}
+
 	}
 }

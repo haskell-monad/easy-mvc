@@ -28,6 +28,9 @@ public class ConfigHelper {
 	public static String getStaticDir() {
 		return PropertyUtil.getStringValue(PropertyConfigConstant.STATIC_DIR_CONFIG, PropertyConfigConstant.STATIC_DIR_CONFIG_DEFAULT);
 	}
+	public static String getHomePage() {
+		return PropertyUtil.getStringValue(PropertyConfigConstant.HOME_PAGE, PropertyConfigConstant.HOME_PAGE_DEFAULT);
+	}
 	public static String getConfigValue(String key) {
 		return PropertyUtil.getStringValue(key);
 	}

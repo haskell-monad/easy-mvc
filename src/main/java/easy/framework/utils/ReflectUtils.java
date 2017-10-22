@@ -36,6 +36,11 @@ public class ReflectUtils {
 		}
 	}
 
+	/**
+	 * 获取方法参数
+	 * @param method
+	 * @return
+	 */
 	public static List<String> findMethodParamName(Method method) {
 		List<String> paramNameList = new ArrayList<>();
 		Class clazz = method.getDeclaringClass();
@@ -133,5 +138,13 @@ public class ReflectUtils {
 			logger.error("创建bean实例失败: {}", clazz.getSimpleName());
 			throw new RuntimeException("创建bean实例失败", e);
 		}
+	}
+
+	/**
+	 * 动态生成查询类
+	 * @param clazz
+	 */
+	public static void generateQueryClass(Class<?> clazz){
+
 	}
 }

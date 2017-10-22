@@ -7,12 +7,17 @@ import org.apache.commons.lang3.StringUtils;
 
 import easy.framework.common.PropertyConfigConstant;
 import easy.framework.core.ClassLoaderHelper;
+import easy.framework.database.dao.DataAccessor;
+import easy.framework.database.dao.impl.JdbcTemplate;
 import easy.framework.database.ds.AbstractDataSourceFactory;
 import easy.framework.database.ds.pool.DbcpDataSourceFactory;
 import easy.framework.helper.ConfigHelper;
+import easy.framework.ioc.BeanHelper;
+import easy.framework.mvc.HandlerExceptionResolver;
 import easy.framework.mvc.HandlerInvoke;
 import easy.framework.mvc.HandlerMapping;
 import easy.framework.mvc.HandlerViewResolver;
+import easy.framework.mvc.impl.DefaultHandlerExceptionResolver;
 import easy.framework.mvc.impl.DefaultHandlerInvoke;
 import easy.framework.mvc.impl.DefaultHandlerMapping;
 import easy.framework.mvc.impl.DefaultHandlerViewResolver;
@@ -33,8 +38,14 @@ public class InstanceFactory {
 	public static HandlerViewResolver getHandlerViewResolver() {
 		return getInstance(PropertyConfigConstant.HANDLER_VIEW_RESOLVER_KEY, DefaultHandlerViewResolver.class);
 	}
+	public static HandlerExceptionResolver getHandlerExceptionResolver() {
+		return getInstance(PropertyConfigConstant.HANDLER_EXCEPTION_RESOLVER_KEY, DefaultHandlerExceptionResolver.class);
+	}
 	public static AbstractDataSourceFactory getDataSourceFactory() {
 		return getInstance(PropertyConfigConstant.DATASOURCE_KEY, DbcpDataSourceFactory.class);
+	}
+	public static DataAccessor getDataAccessor() {
+		return getInstance(PropertyConfigConstant.DATA_ACCESSOR_KEY, JdbcTemplate.class);
 	}
 	private static <T> T getInstance(String cacheKey, Class<T> clazz) {
 		try {
@@ -47,12 +58,16 @@ public class InstanceFactory {
 				Class<?> loadClass = ClassLoaderHelper.loadClass(configValue);
 				t = (T) loadClass.newInstance();
 			} else {
-				t = clazz.newInstance();
+				if (BeanHelper.containBean(clazz)) {
+					t = BeanHelper.getBeanInstance(clazz);
+				} else {
+					t = clazz.newInstance();
+				}
 			}
 			CACHE_BEAN_MAP.put(cacheKey, t);
 			return t;
 		} catch (Exception e) {
-			throw new RuntimeException("获取实例异常",e);
+			throw new RuntimeException("获取实例异常", e);
 		}
 	}
 }

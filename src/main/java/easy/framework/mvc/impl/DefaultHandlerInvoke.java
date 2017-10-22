@@ -1,6 +1,7 @@
 package easy.framework.mvc.impl;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
@@ -44,30 +45,16 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 	 * @param requestHandler
 	 */
 	@Override
-	public void invoke(HttpServletRequest request, HttpServletResponse response, RequestHandler requestHandler) {
-		if (requestHandler == null) {
-			try {
-				String requestPath = ServletUtils.requestPath(request);
-				logger.warn("资源handler不存在[{}]", requestPath);
-				response.sendError(404, "资源映射不存在");
-				return;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+	public void invoke(HttpServletRequest request, HttpServletResponse response, RequestHandler requestHandler) throws Exception {
 		logger.debug("***********请求开始************");
 		Method method = requestHandler.getMethod();
 		Object beanInstance = BeanHelper.getBeanInstance(requestHandler.getControllerClass());
 		Object[] params = this.builderMethodParam(request, requestHandler);
-		try {
-			Object resultObj = method.invoke(beanInstance, params);
-			logger.debug("[easy-mvc]请求执行结果: {}", JsonUtils.toJson(resultObj));
-			logger.debug("***********请求结束************");
-			HandlerViewResolver viewResolver = InstanceFactory.getHandlerViewResolver();
-			viewResolver.resolver(request, response, resultObj);
-		} catch (Exception e) {
-			throw new RuntimeException("方法执行异常", e);
-		}
+		Object resultObj = method.invoke(beanInstance, params);
+		logger.debug("[easy-mvc]请求执行结果: {}", JsonUtils.toJson(resultObj));
+		logger.debug("***********请求结束************");
+		HandlerViewResolver viewResolver = InstanceFactory.getHandlerViewResolver();
+		viewResolver.resolver(request, response, resultObj);
 	}
 	/**
 	 * 构造方法执行参数
@@ -75,7 +62,7 @@ public class DefaultHandlerInvoke implements HandlerInvoke {
 	 * @param requestHandler
 	 * @return objects
 	 */
-	private Object[] builderMethodParam(HttpServletRequest request, RequestHandler requestHandler) {
+	private Object[] builderMethodParam(HttpServletRequest request, RequestHandler requestHandler) throws Exception{
 		Method method = requestHandler.getMethod();
 		List<String> methodParamNameList = ReflectUtils.findMethodParamName(method);
 		logger.debug("[easy-mvc]方法参数列表: {},{}", method.getName(), methodParamNameList);

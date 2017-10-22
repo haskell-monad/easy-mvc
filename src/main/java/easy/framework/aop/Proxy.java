@@ -11,6 +11,7 @@ public interface Proxy {
 	 * 执行代理
 	 * @param proxyChain
 	 * @return
+	 * @throws Throwable
 	 */
-	public Object doProxy(ProxyChain proxyChain);
+	public Object doProxy(ProxyChain proxyChain) throws Throwable;
 }

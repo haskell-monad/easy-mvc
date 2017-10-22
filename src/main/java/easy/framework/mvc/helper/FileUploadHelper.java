@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import easy.framework.exception.UploadException;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -55,7 +56,7 @@ public class FileUploadHelper {
 		try {
 			items = fileUpload.parseRequest(req);
 		} catch (FileUploadException e) {
-			throw new RuntimeException("文件上传失败",e);
+			throw new UploadException("文件上传失败",e);
 		}
 		// 对所有请求信息进行判断
 		Iterator<FileItem> iterator = items.iterator();
@@ -81,7 +82,7 @@ public class FileUploadHelper {
 				try {
 					uploadModel.setInputStream(fileItem.getInputStream());
 				} catch (IOException e) {
-					throw new RuntimeException("获取文件数据流失败",e);
+					throw new UploadException("获取文件数据流失败",e);
 				}
 				fileList.add(uploadModel);
 			}
@@ -134,7 +135,7 @@ public class FileUploadHelper {
 			outputStream.flush();
 		} catch (Exception e) {
 			logger.error("targetFile: {}", targetFile);
-			throw new RuntimeException("文件上传失败", e);
+			throw new UploadException("文件上传失败", e);
 		} finally {
 			try {
 				outputStream.close();

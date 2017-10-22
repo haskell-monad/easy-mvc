@@ -1,11 +1,15 @@
 package easy.framework.database.dao.impl;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.dbutils.BasicRowProcessor;
+import org.apache.commons.dbutils.GenerousBeanProcessor;
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,52 +31,53 @@ public class JdbcTemplate implements DataAccessor {
 		this.dataSource = DatabaseHelper.getDataSource();
 		this.queryRunner = new QueryRunner(dataSource);
 	}
+	@Override
 	public int insert(String sql, Object... obj) {
 		try {
 			return queryRunner.update(sql, obj);
 		} catch (SQLException e) {
-			throw new RuntimeException("插入数据异常", e);
+			logger.error("插入数据异常", e);
+			throw new RuntimeException("插入数据异常");
 		}
 	}
+	@Override
 	public int insertBatch(String sql, Object[][]... obj) {
 		try {
 			return queryRunner.update(sql, obj);
 		} catch (SQLException e) {
-			throw new RuntimeException("插入数据异常", e);
+			logger.error("批量插入数据异常", e);
+			throw new RuntimeException("批量插入数据异常");
 		}
 	}
-	public int update(String sql) {
-		try {
-			return queryRunner.update(sql);
-		} catch (SQLException e) {
-			throw new RuntimeException("更新数据异常", e);
-		}
-	}
+	@Override
 	public int update(String sql, Object... obj) {
 		try {
 			return queryRunner.update(sql, obj);
 		} catch (SQLException e) {
-			throw new RuntimeException("更新数据异常", e);
+			logger.error("更新数据异常", e);
+			throw new RuntimeException("更新数据异常");
 		}
 	}
-	public int delete(String sql) {
-		return update(sql);
-	}
+	@Override
 	public int delete(String sql, Object... obj) {
 		return update(sql, obj);
 	}
-	public <T> T select(String sql, ResultSetHandler<T> rsh) {
+	@Override
+	public <T> T select(String sql, Class<T> clazz, Object... obj) {
 		try {
-			return queryRunner.query(sql, rsh);
+			return queryRunner.query(sql, new BeanHandler<>(clazz, new BasicRowProcessor(new GenerousBeanProcessor())), obj);
 		} catch (SQLException e) {
-			throw new RuntimeException("查询数据异常", e);
+			logger.error("查询数据异常", e);
+			throw new RuntimeException("查询数据异常");
 		}
 	}
-	public <T> T select(String sql, ResultSetHandler<T> rsh, Object... obj) {
+	@Override
+	public <T> List<T> selectList(String sql, Class<T> clazz, Object... obj) {
 		try {
-			return queryRunner.query(sql, rsh, obj);
+			return queryRunner.query(sql, new BeanListHandler<>(clazz, new BasicRowProcessor(new GenerousBeanProcessor())), obj);
 		} catch (SQLException e) {
-			throw new RuntimeException("查询数据异常", e);
+			logger.error("查询数据异常", e);
+			throw new RuntimeException("查询数据异常");
 		}
 	}
 }

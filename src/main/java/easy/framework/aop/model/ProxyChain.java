@@ -32,17 +32,13 @@ public class ProxyChain {
 		this.chainIndex = 0;
 		this.chainCount = aspectClassList.size();
 	}
-	public Object doChain() {
+	public Object doChain() throws Throwable {
 		Object result;
 		int nextIndex = this.nextAspectChain();
 		if (nextIndex <= chainCount) {
 			result = aspectClassList.get(nextIndex - 1).doProxy(this);
 		} else {
-			try {
-				result = methodProxy.invokeSuper(targetObj, args);
-			} catch (Throwable e) {
-				throw new RuntimeException("方法调用异常", e);
-			}
+			result = methodProxy.invokeSuper(targetObj, args);
 		}
 		return result;
 	}

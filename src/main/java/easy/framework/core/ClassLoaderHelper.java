@@ -44,13 +44,16 @@ public class ClassLoaderHelper {
 		Set<Class<?>> cacheClass = new HashSet<>();
 		Enumeration<URL> resources;
 		try {
-			resources = getClassLoader().getResources(basePackageName.replaceAll(".", FileUtils.SYSTEM_SEPARATOR));
+			String sourceName = basePackageName.replaceAll("\\.", "/");
+			logger.debug("加载类所在基础包: {}\t{}", basePackageName, sourceName);
+			resources = getClassLoader().getResources(sourceName);
 			while (resources.hasMoreElements()) {
 				URL url = resources.nextElement();
+				logger.debug("加载类所在路径: {}", url.getPath());
 				// [/D:/myapp/tomcat8/webapps/demo/WEB-INF/classes/]
 				// [file:/D:/myapp/tomcat8/webapps/demo/WEB-INF/lib/easy-mvc-1.0-SNAPSHOT.jar!/]
 				if (FileUtils.FILE.equals(url.getProtocol())) {
-					loadClassFile(cacheClass, "", url.getPath());
+					loadClassFile(cacheClass,basePackageName, url.getPath());
 				} else if (FileUtils.JAR.equals(url.getProtocol())) {
 					JarURLConnection connection = (JarURLConnection) url.openConnection();
 					Enumeration<JarEntry> entries = connection.getJarFile().entries();
@@ -68,6 +71,7 @@ public class ClassLoaderHelper {
 		} catch (IOException e) {
 			throw new RuntimeException("扫描包失败[" + basePackageName + "]");
 		}
+		logger.debug("============加载class文件[{}]完成====================", cacheClass.size());
 		return cacheClass;
 	}
 	private static void loadClassFile(Set<Class<?>> cacheClass, String packageName, String path) {
@@ -75,9 +79,11 @@ public class ClassLoaderHelper {
 		if (files != null && files.length > 0) {
 			for (File file : files) {
 				if (file.isDirectory()) {
-					loadClassFile(cacheClass, FileUtils.builderFullPackageName(packageName, file.getName()), file.getAbsolutePath());
+					String fullPackageName = packageName + "." + file.getName();
+					loadClassFile(cacheClass, fullPackageName, file.getAbsolutePath());
 				} else if (file.isFile()) {
-					cacheClass.add(loadClass(FileUtils.builderFullClassName(packageName, file.getName()), false));
+					String fullClassName = FileUtils.builderFullClassName(packageName, file.getName());
+					cacheClass.add(loadClass(fullClassName, false));
 				}
 			}
 		}

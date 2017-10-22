@@ -4,6 +4,7 @@ import easy.framework.mvc.model.RequestHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author limengyu
@@ -16,6 +17,7 @@ public interface HandlerInvoke {
      * @param request
      * @param response
      * @param requestHandler
+     * @throws Exception
      */
-    void invoke(HttpServletRequest request,HttpServletResponse response,RequestHandler requestHandler);
+    void invoke(HttpServletRequest request,HttpServletResponse response,RequestHandler requestHandler) throws Exception;
 }

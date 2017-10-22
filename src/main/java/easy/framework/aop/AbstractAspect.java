@@ -8,7 +8,7 @@ import easy.framework.aop.model.ProxyChain;
  */
 public abstract class AbstractAspect implements Proxy {
 	@Override
-	public final Object doProxy(ProxyChain proxyChain) {
+	public final Object doProxy(ProxyChain proxyChain) throws Throwable {
 		Object result;
 		begin();
 		try {
@@ -19,8 +19,8 @@ public abstract class AbstractAspect implements Proxy {
 			} else {
 				result = proxyChain.doChain();
 			}
-		} catch (Exception e) {
-			throw new RuntimeException("aop方法调用异常", e);
+		} catch (Throwable e) {
+			throw e;
 		} finally {
 			end();
 		}

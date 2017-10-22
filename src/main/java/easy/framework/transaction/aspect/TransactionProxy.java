@@ -19,7 +19,7 @@ public class TransactionProxy implements Proxy {
 	private static final ThreadLocal<Boolean> TRANSACTION_START_FLAG = ThreadLocal.withInitial(() -> Boolean.FALSE);
 
 	@Override
-	public Object doProxy(ProxyChain proxyChain) {
+	public Object doProxy(ProxyChain proxyChain) throws Throwable {
 		Object result = null;
 		Method method = proxyChain.getMethod();
 		if (method.isAnnotationPresent(Transaction.class) && Boolean.FALSE.equals(TRANSACTION_START_FLAG.get())) {
@@ -31,10 +31,10 @@ public class TransactionProxy implements Proxy {
 				result = proxyChain.doChain();
 				DatabaseHelper.commitTransaction();
 				logger.info("[easy-mvc]提交事务");
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				DatabaseHelper.rollbackTransaction();
 				logger.info("[easy-mvc]回滚事务");
-				throw new RuntimeException("执行方法发生异常", e);
+				throw e;
 			} finally {
 				TRANSACTION_START_FLAG.remove();
 			}

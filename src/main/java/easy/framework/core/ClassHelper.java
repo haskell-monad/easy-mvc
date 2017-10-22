@@ -1,9 +1,11 @@
 package easy.framework.core;
 
 import java.lang.annotation.Annotation;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import easy.framework.common.PropertyConfigConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,10 +17,15 @@ import easy.framework.helper.ConfigHelper;
  */
 public class ClassHelper {
 	private static final Logger logger = LoggerFactory.getLogger(ClassHelper.class);
-	public static final Set<Class<?>> ALL_CLASS;
+	public static final Set<Class<?>> ALL_CLASS = new HashSet<>();
 	static {
-		logger.debug("=========开始加载class文件==========");
-		ALL_CLASS = ClassLoaderHelper.scanAllClassByPackageName(ConfigHelper.getAppBasePackage());
+		logger.debug("=========开始加载class文件[{}]==========", ConfigHelper.getAppBasePackage());
+		Set<Class<?>> appClassSet = ClassLoaderHelper.scanAllClassByPackageName(ConfigHelper.getAppBasePackage());
+		ALL_CLASS.addAll(appClassSet);
+		if(!PropertyConfigConstant.FRAMEWORK_BASE_PACKAGE.equals(ConfigHelper.getAppBasePackage())){
+			Set<Class<?>> frameClassSet = ClassLoaderHelper.scanAllClassByPackageName(PropertyConfigConstant.FRAMEWORK_BASE_PACKAGE);
+			ALL_CLASS.addAll(frameClassSet);
+		}
 	}
 
 	/**

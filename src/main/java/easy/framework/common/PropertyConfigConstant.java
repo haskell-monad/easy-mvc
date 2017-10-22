@@ -22,6 +22,8 @@ public class PropertyConfigConstant {
 	 */
 	public static final String JSP_DIR_CONFIG = "easy.mvc.web.jsp.dir";
 	public static final String STATIC_DIR_CONFIG = "easy.mvc.web.static.dir";
+	public static final String HOME_PAGE = "easy.mvc.web.home.page";
+	public static final String HOME_PAGE_DEFAULT = "/index.html";
 	/**
 	 * jsp文件目录、静态文件目录默认值
 	 */
@@ -49,6 +51,7 @@ public class PropertyConfigConstant {
 	public static final String HANDLER_MAPPING_KEY = "easy.framework.custom.handler-mapping";
 	public static final String HANDLER_INVOKE_KEY = "easy.framework.custom.handler-invoke";
 	public static final String HANDLER_VIEW_RESOLVER_KEY = "easy.framework.custom.handler-view-resolver";
+	public static final String HANDLER_EXCEPTION_RESOLVER_KEY = "easy.framework.custom.handler-exception-resolver";
 	/**
 	 * 文件上传配置项
 	 */
@@ -56,7 +59,7 @@ public class PropertyConfigConstant {
 	public static final String FILE_UPLOAD_SINGLE_FILE_SIZE = "easy.framework.custom.fileUpload.singleFileSize";
 	public static final String FILE_UPLOAD_DIR_NAME = "easy.framework.custom.fileUpload.directory";
 	/**
-	 * 文件上传配置默认值
+	 * 文件上传配置默认值(MB)
 	 */
 	public static final long FILE_UPLOAD_MAX_SIZE_DEFAULT = 1024 * 1024 * 20;
 	public static final long FILE_UPLOAD_SINGLE_FILE_SIZE_DEFAULT = 1024 * 1024 * 2;
@@ -65,4 +68,8 @@ public class PropertyConfigConstant {
 	 * 自定义数据源配置项
 	 */
 	public static final String DATASOURCE_KEY = "easy.framework.custom.dataSource";
+	/**
+	 * 自定义数据访问器项
+	 */
+	public static final String DATA_ACCESSOR_KEY = "easy.framework.custom.dataAccessor";
 }

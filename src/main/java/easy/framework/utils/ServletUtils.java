@@ -2,6 +2,7 @@ package easy.framework.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
@@ -11,9 +12,11 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import easy.framework.mvc.common.Constant;
 import easy.framework.mvc.helper.FileUploadHelper;
+import easy.framework.mvc.model.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,5 +152,48 @@ public class ServletUtils {
 			});
 		}
 		return result;
+	}
+
+	public static void sendError(int errCode,String msg,HttpServletResponse response){
+		try {
+			logger.error("sendError: {},{}",errCode,msg);
+			response.sendError(errCode,msg);
+		} catch (Exception e) {
+			logger.error("sendError异常",e);
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static void redirect(String viewPath, HttpServletRequest request, HttpServletResponse response){
+		logger.debug("redirect: {}", request.getContextPath() + viewPath);
+		try {
+			response.sendRedirect(request.getContextPath() + viewPath);
+		} catch (IOException e) {
+			logger.error("请求重定向发生异常",e);
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+	public static void forward(String viewPath, HttpServletRequest request, HttpServletResponse response){
+		try {
+			request.getRequestDispatcher(viewPath).forward(request, response);
+		} catch (Exception e) {
+			logger.error("请求转发发生异常",e);
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+	public static void sendJson(HttpServletResponse response, Result result){
+		response.setContentType("application/json");
+		response.setCharacterEncoding(Constant.DEFAULT_ENCODE);
+		PrintWriter writer = null;
+		try {
+			writer = response.getWriter();
+			writer.write(JsonUtils.toJson(result));
+			writer.flush();
+		} catch (IOException e) {
+			logger.error("响应json数据异常",e);
+			throw new RuntimeException(e.getMessage());
+		} finally {
+			writer.close();
+		}
 	}
 }
