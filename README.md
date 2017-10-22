@@ -214,7 +214,7 @@ easy.framework.custom.dataAccessor=
 easy.framework.custom.handler-mapping=
 easy.framework.custom.handler-invoke=
 easy.framework.custom.handler-view-resolver=
-easy.framework.custom.handler-exception=
+easy.framework.custom.handler-exception-resolver=
 #文件上传相关配置（可选）
 #默认总大小20MB
 easy.framework.custom.fileUpload.maxSize=
