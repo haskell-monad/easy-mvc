@@ -231,7 +231,7 @@ easy.framework.custom.fileUpload.directory=
 - [ ] orm-sql优化
 - [ ] aop优化增加切入点
 - [ ] cli命令行工具开发
-- [ ] 事务优化方便集成spring事务
+- [ ] 支持[Guice](https://github.com/google/guice)
 - [ ] 异常处理
 - [ ] 插件支持
 - [ ] redis/memcache/shiro插件开发
