@@ -4,7 +4,7 @@ package easy.framework.common;
  * @author limengyu
  * @create 2017/8/21
  */
-public class PropertyConfigConstant {
+public class FrameworkConfigConstant {
 	/**
 	 * 框架配置文件名称
 	 */
@@ -13,6 +13,11 @@ public class PropertyConfigConstant {
 	 * 框架根包路径
 	 */
 	public static final String FRAMEWORK_BASE_PACKAGE = "easy.framework";
+
+	/**
+	 * 框架插件根包路径
+	 */
+	public static final String FRAMEWORK_PLUGIN_PACKAGE = "easy.framework.plugin";
 	/**
 	 * 框架demo根包路径配置项
 	 */
@@ -72,4 +77,10 @@ public class PropertyConfigConstant {
 	 * 自定义数据访问器项
 	 */
 	public static final String DATA_ACCESSOR_KEY = "easy.framework.custom.dataAccessor";
+	/**
+	 * 自增主键字段名称默认值
+	 */
+	public static final String GENERATE_KEY_NAME = "ID";
+
+
 }

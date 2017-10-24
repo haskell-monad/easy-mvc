@@ -8,6 +8,7 @@ import easy.framework.ioc.BeanHelper;
 import easy.framework.ioc.IocHelper;
 import easy.framework.mvc.helper.ControllerHelper;
 import easy.framework.orm.helper.OrmHelper;
+import easy.framework.plugin.PluginHelper;
 
 /**
  * @author limengyu
@@ -22,7 +23,8 @@ public class HelperLoader {
                 BeanHelper.class,
                 ControllerHelper.class,
                 AopHelper.class,
-                IocHelper.class};
+                IocHelper.class,
+                PluginHelper.class};
         for (Class clazz : helper) {
             ClassLoaderHelper.loadClass(clazz);
         }

@@ -54,7 +54,7 @@ public class OrmHelper {
 		}
 		Map<String, String> map = new HashMap<>(16);
 		for (Field field : fields) {
-			if (field.getModifiers() != Modifier.PRIVATE) {
+			if (!Modifier.isPrivate(field.getModifiers())) {
 				continue;
 			} else if (field.isAnnotationPresent(FieldIgnore.class)) {
 				continue;

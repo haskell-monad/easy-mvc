@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import easy.framework.database.helper.DatabaseHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import easy.framework.database.helper.DatabaseHelper;
 import easy.framework.orm.helper.OrmHelper;
 import easy.framework.utils.DateUtils;
 import easy.framework.utils.StringExtUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author limengyu
@@ -24,6 +24,7 @@ public class Condition<T> {
 	private List<String> orList;
 	private List<String> sortList;
 	private List<String> fieldList;
+	private List<String> valuesList;
 	private List<String> groupList;
 	private String tableName;
 	private Class<T> clazz;
@@ -38,6 +39,7 @@ public class Condition<T> {
 		this.sortList = new ArrayList<>();
 		this.fieldList = new ArrayList<>();
 		this.groupList = new ArrayList<>();
+		this.valuesList = new ArrayList<>();
 	}
 	private String getTableFieldName(String classFieldName) {
 		return StringUtils.isBlank(fieldNameMap.get(classFieldName)) ? classFieldName : fieldNameMap.get(classFieldName);
@@ -55,7 +57,7 @@ public class Condition<T> {
 			for (Pair pair : pairs) {
 				sqlList.add(this.builderSql(pair));
 			}
-			String sql = StringExtUtils.prettyJoinValue("(", ")",StringExtUtils.prettyValueWithTab("and"), sqlList);
+			String sql = StringExtUtils.prettyJoinValue("(", ")", StringExtUtils.prettyValueWithTab("and"), sqlList);
 			andList.add(sql);
 		}
 		return this;
@@ -101,7 +103,19 @@ public class Condition<T> {
 		}
 		return this;
 	}
-	private String builder() {
+	public Condition values(String... fieldValueList) {
+		if (fieldValueList != null && fieldValueList.length > 0) {
+			for (String fieldValue : fieldValueList) {
+				valuesList.add(StringExtUtils.prettyValueWithDoubleQuot(fieldValue));
+			}
+		}
+		return this;
+	}
+	public Condition set(String classFieldName, String fieldValue) {
+		valuesList.add(getTableFieldName(classFieldName) + "=" + StringExtUtils.prettyValueWithDoubleQuot(fieldValue));
+		return this;
+	}
+	private String builderSelect() {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select\t");
 		if (fieldList.size() > 0) {
@@ -127,22 +141,92 @@ public class Condition<T> {
 			sql.append(String.join(",", sortList));
 		}
 		sql.append(";");
-		logger.debug("[easy-orm:sql]: {}", sql.toString());
+		clear();
+		logger.debug("[easy-orm:select]: {}", sql.toString());
 		return sql.toString();
 	}
-	public <T> T select(){
-		String sql = this.builder();
+	public String builderInsert() {
+		StringBuffer sql = new StringBuffer();
+		sql.append(StringExtUtils.prettyValueWithTab("insert into"));
+		sql.append(tableName);
+		if (fieldList.size() > 0) {
+			sql.append("(");
+			sql.append(String.join(",", fieldList));
+			sql.append(")");
+		}
+		sql.append(StringExtUtils.prettyValueWithTab("values"));
+		if (valuesList.size() > 0) {
+			sql.append("(");
+			sql.append(String.join(",", valuesList));
+			sql.append(")");
+		}
+		sql.append(";");
+		clear();
+		logger.debug("[easy-orm:insert]: {}", sql.toString());
+		return sql.toString();
+	}
+	public String builderUpdate() {
+		StringBuffer sql = new StringBuffer();
+		sql.append(StringExtUtils.prettyValueWithTab("update"));
+		sql.append(tableName);
+		sql.append(StringExtUtils.prettyValueWithTab("set"));
+		if (valuesList.size() > 0) {
+			sql.append(String.join(",", valuesList));
+		}
+		if (andList.size() > 0) {
+			sql.append(StringExtUtils.prettyValueWithTab("where"));
+			sql.append(String.join(StringExtUtils.prettyValueWithTab("and"), andList));
+		}
+		sql.append(";");
+		clear();
+		logger.debug("[easy-orm:update]: {}", sql.toString());
+		return sql.toString();
+	}
+	public String builderDelete() {
+		StringBuffer sql = new StringBuffer();
+		sql.append(StringExtUtils.prettyValueWithTab("DELETE FROM"));
+		sql.append(tableName);
+		if (andList.size() > 0) {
+			sql.append(StringExtUtils.prettyValueWithTab("where"));
+			sql.append(String.join(StringExtUtils.prettyValueWithTab("and"), andList));
+		}
+		sql.append(";");
+		clear();
+		logger.debug("[easy-orm:delete]: {}", sql.toString());
+		return sql.toString();
+	}
+	private void clear() {
+		this.andList.clear();
+		this.orList.clear();
+		this.sortList.clear();
+		this.fieldList.clear();
+		this.groupList.clear();
+		this.valuesList.clear();
+	}
+	public int insertTable() {
+		String sql = this.builderInsert();
+		return DatabaseHelper.insert(sql);
+	}
+	public int updateTable() {
+		String sql = this.builderUpdate();
+		return DatabaseHelper.update(sql);
+	}
+	public int deleteTable() {
+		String sql = this.builderDelete();
+		return DatabaseHelper.delete(sql);
+	}
+	public <T> T select() {
+		String sql = this.builderSelect();
 		return (T) DatabaseHelper.select(sql, clazz);
 	}
-	public <T> List<T> selectList(){
-		String sql = this.builder();
+	public <T> List<T> selectList() {
+		String sql = this.builderSelect();
 		return (List<T>) DatabaseHelper.selectList(sql, clazz);
 	}
-
 	public static <T> T[] multiAnd(T... t) {
 		return t;
 	}
-	public static  <T> T[] multiOr(T... t) {
+	public static <T> T[] multiOr(T... t) {
 		return t;
 	}
 	public static Pair equals(String fieldName, String value) {

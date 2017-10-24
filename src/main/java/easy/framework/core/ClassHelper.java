@@ -5,7 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import easy.framework.common.PropertyConfigConstant;
+import easy.framework.common.FrameworkConfigConstant;
+import easy.framework.utils.ReflectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +23,8 @@ public class ClassHelper {
 		logger.debug("=========开始加载class文件[{}]==========", ConfigHelper.getAppBasePackage());
 		Set<Class<?>> appClassSet = ClassLoaderHelper.scanAllClassByPackageName(ConfigHelper.getAppBasePackage());
 		ALL_CLASS.addAll(appClassSet);
-		if(!PropertyConfigConstant.FRAMEWORK_BASE_PACKAGE.equals(ConfigHelper.getAppBasePackage())){
-			Set<Class<?>> frameClassSet = ClassLoaderHelper.scanAllClassByPackageName(PropertyConfigConstant.FRAMEWORK_BASE_PACKAGE);
+		if(!FrameworkConfigConstant.FRAMEWORK_BASE_PACKAGE.equals(ConfigHelper.getAppBasePackage())){
+			Set<Class<?>> frameClassSet = ClassLoaderHelper.scanAllClassByPackageName(FrameworkConfigConstant.FRAMEWORK_BASE_PACKAGE);
 			ALL_CLASS.addAll(frameClassSet);
 		}
 	}
@@ -51,7 +52,7 @@ public class ClassHelper {
 	 */
 	public static Set<Class<?>> findClassBySuperClass(Class<?> superClazz) {
 		// isAssignableFrom 用来判断一个类superClazz和另一个类clazz是否相同或是另一个类的超类或接口
-		Set<Class<?>> result = ALL_CLASS.stream().filter(clazz -> superClazz.isAssignableFrom(clazz) && !superClazz.equals(clazz)).collect(Collectors.toSet());
+		Set<Class<?>> result = ALL_CLASS.stream().filter(clazz -> !ReflectUtils.isAbstract(clazz) && superClazz.isAssignableFrom(clazz) && !superClazz.equals(clazz)).collect(Collectors.toSet());
 		return result;
 	}
 	public static void main(String[] args) {

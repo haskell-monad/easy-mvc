@@ -12,7 +12,7 @@ import java.util.jar.JarEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import easy.framework.common.PropertyConfigConstant;
+import easy.framework.common.FrameworkConfigConstant;
 import easy.framework.utils.FileUtils;
 
 /**
@@ -61,7 +61,7 @@ public class ClassLoaderHelper {
 						String jarName = entries.nextElement().getName();
 						if (jarName.endsWith(FileUtils.CLASS_FILE_SUFFIX)) {
 							String baseName = FileUtils.getBaseName(jarName);
-							if (baseName.startsWith(PropertyConfigConstant.FRAMEWORK_BASE_PACKAGE) || baseName.startsWith(basePackageName)) {
+							if (baseName.startsWith(FrameworkConfigConstant.FRAMEWORK_BASE_PACKAGE) || baseName.startsWith(basePackageName)) {
 								cacheClass.add(loadClass(baseName, false));
 							}
 						}

@@ -8,6 +8,24 @@ import java.util.List;
  */
 public interface DataAccessor {
 	/**
+	 * 新增数据，返回自增主键值
+	 * @param generateKey 自增主键字段名称,默认值是PropertyConfigConstant.GENERATE_KEY_NAME
+	 * @param sql
+	 * @param params
+	 * @return
+	 */
+	int insertGeneratedKeys(String generateKey, String sql, Object... params);
+
+	/**
+	 * select count(*) from users
+	 * 返回数据总数
+	 * @param sql
+	 * @param params
+	 * @return
+	 */
+	int selectCount(String sql, Object... params);
+
+	/**
 	 * 新增数据
 	 * @param sql
 	 * @param params 参数
@@ -21,6 +39,13 @@ public interface DataAccessor {
 	 * @return
 	 */
 	int insertBatch(String sql, Object[][]... params);
+
+	/**
+	 * 更新数据
+	 * @param sql
+	 * @param params 参数
+	 * @return
+	 */
 	int update(String sql, Object... params);
 	/**
 	 * 删除数据

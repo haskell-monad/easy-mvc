@@ -3,7 +3,7 @@ package easy.framework.utils;
 import java.io.IOException;
 import java.util.Properties;
 
-import easy.framework.common.PropertyConfigConstant;
+import easy.framework.common.FrameworkConfigConstant;
 
 /**
  * @author limengyu
@@ -13,9 +13,9 @@ public class PropertyUtil {
 	private static Properties properties = new Properties();
 	static {
 		try {
-			properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(PropertyConfigConstant.CONFIG_FILE_NAME));
+			properties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(FrameworkConfigConstant.CONFIG_FILE_NAME));
 		} catch (IOException e) {
-			throw new RuntimeException("读取配置文件["+PropertyConfigConstant.CONFIG_FILE_NAME+"]异常",e);
+			throw new RuntimeException("读取配置文件["+ FrameworkConfigConstant.CONFIG_FILE_NAME+"]异常",e);
 		}
 	}
 

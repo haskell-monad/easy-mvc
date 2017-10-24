@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 
-import easy.framework.common.PropertyConfigConstant;
+import easy.framework.common.FrameworkConfigConstant;
 import easy.framework.core.ClassLoaderHelper;
 import easy.framework.database.dao.DataAccessor;
 import easy.framework.database.dao.impl.JdbcTemplate;
@@ -30,22 +30,22 @@ public class InstanceFactory {
 	private static final Map<String, Object> CACHE_BEAN_MAP = new ConcurrentHashMap<>();
 
 	public static HandlerMapping getHandlerMapping() {
-		return getInstance(PropertyConfigConstant.HANDLER_MAPPING_KEY, DefaultHandlerMapping.class);
+		return getInstance(FrameworkConfigConstant.HANDLER_MAPPING_KEY, DefaultHandlerMapping.class);
 	}
 	public static HandlerInvoke getHandlerInvoke() {
-		return getInstance(PropertyConfigConstant.HANDLER_INVOKE_KEY, DefaultHandlerInvoke.class);
+		return getInstance(FrameworkConfigConstant.HANDLER_INVOKE_KEY, DefaultHandlerInvoke.class);
 	}
 	public static HandlerViewResolver getHandlerViewResolver() {
-		return getInstance(PropertyConfigConstant.HANDLER_VIEW_RESOLVER_KEY, DefaultHandlerViewResolver.class);
+		return getInstance(FrameworkConfigConstant.HANDLER_VIEW_RESOLVER_KEY, DefaultHandlerViewResolver.class);
 	}
 	public static HandlerExceptionResolver getHandlerExceptionResolver() {
-		return getInstance(PropertyConfigConstant.HANDLER_EXCEPTION_RESOLVER_KEY, DefaultHandlerExceptionResolver.class);
+		return getInstance(FrameworkConfigConstant.HANDLER_EXCEPTION_RESOLVER_KEY, DefaultHandlerExceptionResolver.class);
 	}
 	public static AbstractDataSourceFactory getDataSourceFactory() {
-		return getInstance(PropertyConfigConstant.DATASOURCE_KEY, DbcpDataSourceFactory.class);
+		return getInstance(FrameworkConfigConstant.DATASOURCE_KEY, DbcpDataSourceFactory.class);
 	}
 	public static DataAccessor getDataAccessor() {
-		return getInstance(PropertyConfigConstant.DATA_ACCESSOR_KEY, JdbcTemplate.class);
+		return getInstance(FrameworkConfigConstant.DATA_ACCESSOR_KEY, JdbcTemplate.class);
 	}
 	private static <T> T getInstance(String cacheKey, Class<T> clazz) {
 		try {

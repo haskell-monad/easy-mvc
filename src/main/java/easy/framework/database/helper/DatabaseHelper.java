@@ -73,10 +73,22 @@ public class DatabaseHelper {
 			THREAD_LOCAL.remove();
 		}
 	}
-	public static <T> T select(String sql,Class<T> clazz, Object... obj) {
-		return dataAccessor.select(sql,clazz,obj);
+	public static <T> T select(String sql,Class<T> clazz, Object... params) {
+		return dataAccessor.select(sql,clazz,params);
 	}
-	public static <T> List<T> selectList(String sql, Class<T> clazz, Object... obj) {
-		return dataAccessor.selectList(sql, clazz, obj);
+	public static <T> List<T> selectList(String sql, Class<T> clazz, Object... params) {
+		return dataAccessor.selectList(sql, clazz, params);
+	}
+	public static int insert(String sql,Object ...params){
+		return dataAccessor.insert(sql, params);
+	}
+	public static int insertBatch(String sql,Object[][] ...params){
+		return dataAccessor.insertBatch(sql, params);
+	}
+	public static int delete(String sql,Object ...params){
+		return dataAccessor.delete(sql, params);
+	}
+	public static int update(String sql,Object ...params){
+		return dataAccessor.update(sql, params);
 	}
 }

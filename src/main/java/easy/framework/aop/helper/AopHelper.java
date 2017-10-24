@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import easy.framework.plugin.AbstractPluginProxy;
+import easy.framework.plugin.Plugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +27,12 @@ import easy.framework.utils.ReflectUtils;
  */
 public class AopHelper {
 	private static final Logger logger = LoggerFactory.getLogger(AopHelper.class);
+	/**
+	 * <目标类，List<目标代理类实例>>
+	 */
 	private static final Map<Class<?>, List<Proxy>> TARGET_CLASS_PROXY = new HashMap<>();
 	static {
+		findPluginProxy();
 		findAbstractProxy();
 		findTransactionProxy();
 		loadTargetClassProxy();
@@ -37,11 +43,11 @@ public class AopHelper {
 		if (targetAspectClassList != null && targetAspectClassList.size() > 0) {
 			for (Class<?> targetClass : targetAspectClassList) {
 				Class<? extends Proxy>[] aspectList = targetClass.getAnnotation(Aspect.class).value();
-				List<Proxy> aspectClassList = new ArrayList<>();
+				List<Proxy> targetProxyClassList = new ArrayList<>();
 				for (Class<? extends Proxy> aspectClass : aspectList) {
-					aspectClassList.add(ReflectUtils.newInstance(aspectClass));
+					targetProxyClassList.add(ReflectUtils.newInstance(aspectClass));
 				}
-				TARGET_CLASS_PROXY.put(targetClass, aspectClassList);
+				TARGET_CLASS_PROXY.put(targetClass, targetProxyClassList);
 			}
 		}
 	}
@@ -63,6 +69,25 @@ public class AopHelper {
 					targetClassProxyList.add(ReflectUtils.newInstance(TransactionProxy.class));
 					TARGET_CLASS_PROXY.put(targetClass, targetClassProxyList);
 				}
+			}
+		}
+	}
+	private static void findPluginProxy() {
+		Set<Class<?>> pluginProxyClass = ClassHelper.findClassBySuperClass(AbstractPluginProxy.class);
+		for (Class<?> proxyClass : pluginProxyClass) {
+			AbstractPluginProxy pluginProxyInstance = (AbstractPluginProxy)ReflectUtils.newInstance(proxyClass);
+			List<Class<?>> targetClassList = pluginProxyInstance.getTargetClassList();
+			if(targetClassList != null && targetClassList.size() > 0){
+				targetClassList.forEach(targetClass -> {
+					List<Proxy> targetProxyClassList;
+					if(TARGET_CLASS_PROXY.containsKey(targetClass)){
+						targetProxyClassList = TARGET_CLASS_PROXY.get(targetClass);
+					}else{
+						targetProxyClassList = new ArrayList<>();
+					}
+					targetProxyClassList.add((AbstractPluginProxy)ReflectUtils.newInstance(proxyClass));
+					TARGET_CLASS_PROXY.put(targetClass,targetProxyClassList);
+				});
 			}
 		}
 	}

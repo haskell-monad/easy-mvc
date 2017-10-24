@@ -42,7 +42,7 @@ public class BeanHelper {
 		return true;
 	}
 	public static void putBeanInstance(Class<?> beanClass) {
-		BEAN_MAP.put(beanClass, ReflectUtils.newInstance(beanClass));
+		putBeanInstance(beanClass, ReflectUtils.newInstance(beanClass));
 	}
 	public static void putBeanInstance(Class<?> beanClass, Object beanInstance) {
 		BEAN_MAP.put(beanClass, beanInstance);

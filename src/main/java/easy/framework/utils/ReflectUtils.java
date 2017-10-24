@@ -141,6 +141,15 @@ public class ReflectUtils {
 	}
 
 	/**
+	 * 是否是抽象类
+	 * @param clazz
+	 * @return
+	 */
+	public static boolean isAbstract(Class<?> clazz) {
+		return java.lang.reflect.Modifier.isAbstract(clazz.getModifiers());
+	}
+
+	/**
 	 * 动态生成查询类
 	 * @param clazz
 	 */
