@@ -183,7 +183,7 @@ select USER_NAME,USER_PHONE,gender,age,CREATE_DATE
 	- PROPAGATION_NEVER--以非事务方式执行，如果当前存在事务，则抛出异常。
 	- ROPAGATION_NESTED--如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。
 
-***easy-mvc当前只支持第1种,通过使用@Transaction注解***
+***easy-mvc当前只支持第2种，不支持事务传播，通过使用@Transaction注解***
 ``` java
 	@Override
 	@Transaction
