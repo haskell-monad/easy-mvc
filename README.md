@@ -225,24 +225,20 @@ easy.framework.custom.fileUpload.singleFileSize=
 #默认临时目录/fileUploadTempDir
 easy.framework.custom.fileUpload.directory=
 
-``` java
-
-***
+```
 
 ## 插件支持
 已实现的插件列表
-[easy—mvc—plugin—rest](https://github.com/limengyu1990/easy-mvc-plugin—rest)
-[easy—mvc—plugin—evolution]()
-[easy—mvc—plugin—cache]()
-
-***
+[easy—mvc—plugin—rest][Jersey-Rest](https://github.com/limengyu1990/easy-mvc-plugin—rest)
+[easy—mvc—plugin—evolution][数据库管理]()
+[easy—mvc—plugin—cache][数据缓存]()
 
 ## To-do List
 - [ ] orm-sql优化
 - [ ] aop优化增加切入点
 - [ ] cli命令行工具开发
 - [ ] 支持[Guice](https://github.com/google/guice)
-- [x] 插件支持
+- [√] 插件支持
 - [ ] redis/memcache/shiro插件开发
 - [ ] evolution数据库同步插件
 - [ ] docker支持
