@@ -229,7 +229,7 @@ easy.framework.custom.fileUpload.directory=
 
 ***
 
-###插件支持
+## 插件支持
 已实现的插件列表
 [easy—mvc—plugin—rest](https://github.com/limengyu1990/easy-mvc-plugin—rest)
 [easy—mvc—plugin—evolution]()
@@ -237,7 +237,7 @@ easy.framework.custom.fileUpload.directory=
 
 ***
 
-### To-do List
+## To-do List
 - [ ] orm-sql优化
 - [ ] aop优化增加切入点
 - [ ] cli命令行工具开发
