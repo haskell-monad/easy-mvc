@@ -72,4 +72,12 @@ public interface DataAccessor {
 	 * @return
 	 */
 	<T> List<T> selectList(String sql, Class<T> clazz, Object... params);
+
+	/**
+	 * 执行sql
+	 * @param sql
+	 * @param params 参数
+	 * @return
+	 */
+	int execute(String sql, Object... params);
 }

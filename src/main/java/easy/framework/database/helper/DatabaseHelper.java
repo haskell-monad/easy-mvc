@@ -74,7 +74,7 @@ public class DatabaseHelper {
 		}
 	}
 	public static <T> T select(String sql,Class<T> clazz, Object... params) {
-		return dataAccessor.select(sql,clazz,params);
+		return dataAccessor.select(sql, clazz, params);
 	}
 	public static <T> List<T> selectList(String sql, Class<T> clazz, Object... params) {
 		return dataAccessor.selectList(sql, clazz, params);
@@ -91,4 +91,9 @@ public class DatabaseHelper {
 	public static int update(String sql,Object ...params){
 		return dataAccessor.update(sql, params);
 	}
+
+	public static int execute(String sql,Object ...params){
+		return dataAccessor.execute(sql, params);
+	}
+
 }

@@ -105,4 +105,14 @@ public class JdbcTemplate implements DataAccessor {
 			throw new RuntimeException("查询数据异常");
 		}
 	}
+
+	@Override
+	public int execute(String sql, Object... params) {
+		try {
+			return queryRunner.execute(sql,params);
+		} catch (SQLException e) {
+			logger.error("执行sql发送异常", e);
+			throw new RuntimeException("执行sql发送异常");
+		}
+	}
 }
