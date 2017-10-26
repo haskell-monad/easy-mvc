@@ -228,9 +228,9 @@ easy.framework.custom.fileUpload.directory=
 ```
 
 ## 插件
-- [easy—mvc—plugin—rest][Jersey-Rest](https://github.com/limengyu1990/easy-mvc-plugin—rest)
-- [easy—mvc—plugin—evolution][数据库管理]()
-- [easy—mvc—plugin—cache][数据缓存]()
+- [easy-mvc-plugin-rest](https://github.com/limengyu1990/easy-mvc-plugin-rest)[Jersey-Rest]
+- [easy-mvc-plugin-evolution](https://github.com/limengyu1990/easy-mvc-plugin-evolution)[数据库管理]
+- [easy-mvc-plugin-cache](https://github.com/limengyu1990/easy-mvc-plugin-cache)[数据缓存]
 
 ## To-do List
 - [ ] orm-sql优化
@@ -239,7 +239,7 @@ easy.framework.custom.fileUpload.directory=
 - [ ] 支持[Guice](https://github.com/google/guice)
 - [x] 插件支持
 - [ ] redis/memcache/shiro插件开发
-- [ ] evolution数据库同步插件
+- [ ] evolution数据库管理插件
 - [ ] docker支持
 ...
 
