@@ -3,6 +3,7 @@ package easy.framework.database.helper;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 import javax.sql.DataSource;
 
@@ -73,27 +74,13 @@ public class DatabaseHelper {
 			THREAD_LOCAL.remove();
 		}
 	}
-	public static <T> T select(String sql,Class<T> clazz, Object... params) {
+	public static <T> T select(String sql, Class<T> clazz, Object... params) {
 		return dataAccessor.select(sql, clazz, params);
 	}
 	public static <T> List<T> selectList(String sql, Class<T> clazz, Object... params) {
 		return dataAccessor.selectList(sql, clazz, params);
 	}
-	public static int insert(String sql,Object ...params){
-		return dataAccessor.insert(sql, params);
-	}
-	public static int insertBatch(String sql,Object[][] ...params){
-		return dataAccessor.insertBatch(sql, params);
-	}
-	public static int delete(String sql,Object ...params){
-		return dataAccessor.delete(sql, params);
-	}
-	public static int update(String sql,Object ...params){
+	public static int update(String sql, Object... params) {
 		return dataAccessor.update(sql, params);
 	}
-
-	public static int execute(String sql,Object ...params){
-		return dataAccessor.execute(sql, params);
-	}
-
 }

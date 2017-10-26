@@ -205,7 +205,7 @@ public class Condition<T> {
 	}
 	public int insertTable() {
 		String sql = this.builderInsert();
-		return DatabaseHelper.insert(sql);
+		return DatabaseHelper.update(sql);
 	}
 	public int updateTable() {
 		String sql = this.builderUpdate();
@@ -213,7 +213,7 @@ public class Condition<T> {
 	}
 	public int deleteTable() {
 		String sql = this.builderDelete();
-		return DatabaseHelper.delete(sql);
+		return DatabaseHelper.update(sql);
 	}
 	public <T> T select() {
 		String sql = this.builderSelect();

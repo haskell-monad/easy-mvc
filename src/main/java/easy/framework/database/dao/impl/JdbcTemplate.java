@@ -1,6 +1,7 @@
 package easy.framework.database.dao.impl;
 
 import java.math.BigInteger;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -35,18 +36,7 @@ public class JdbcTemplate implements DataAccessor {
 		this.dataSource = DatabaseHelper.getDataSource();
 		this.queryRunner = new QueryRunner(dataSource);
 	}
-	@Override
-	public int insertGeneratedKeys(String generateKey, String sql, Object... params) {
-		try {
-			if(StringUtils.isBlank(generateKey)){
-				generateKey = FrameworkConfigConstant.GENERATE_KEY_NAME;
-			}
-			return ((BigInteger)queryRunner.insert(sql,new ScalarHandler(generateKey),params)).intValue();
-		} catch (SQLException e) {
-			logger.error("插入数据异常", e);
-			throw new RuntimeException("插入数据异常");
-		}
-	}
+
 	@Override
 	public int selectCount(String sql, Object... params) {
 		try {
@@ -56,37 +46,7 @@ public class JdbcTemplate implements DataAccessor {
 			throw new RuntimeException("查询数据异常");
 		}
 	}
-	@Override
-	public int insert(String sql,Object... params) {
-		try {
-			return queryRunner.update(sql, params);
-		} catch (SQLException e) {
-			logger.error("插入数据异常", e);
-			throw new RuntimeException("插入数据异常");
-		}
-	}
-	@Override
-	public int insertBatch(String sql, Object[][]... params) {
-		try {
-			return queryRunner.update(sql, params);
-		} catch (SQLException e) {
-			logger.error("批量插入数据异常", e);
-			throw new RuntimeException("批量插入数据异常");
-		}
-	}
-	@Override
-	public int update(String sql, Object... params) {
-		try {
-			return queryRunner.update(sql, params);
-		} catch (SQLException e) {
-			logger.error("更新数据异常", e);
-			throw new RuntimeException("更新数据异常");
-		}
-	}
-	@Override
-	public int delete(String sql, Object... params) {
-		return update(sql, params);
-	}
+
 	@Override
 	public <T> T select(String sql, Class<T> clazz, Object... params) {
 		try {
@@ -107,12 +67,39 @@ public class JdbcTemplate implements DataAccessor {
 	}
 
 	@Override
-	public int execute(String sql, Object... params) {
+	public int insertGeneratedKeys(String generateKey, String sql, Object... params) {
 		try {
-			return queryRunner.execute(sql,params);
+			if(StringUtils.isBlank(generateKey)){
+				generateKey = FrameworkConfigConstant.GENERATE_KEY_NAME;
+			}
+			int n;
+			Connection connection = DatabaseHelper.getConnection();
+			if(connection != null){
+				n = ((BigInteger) queryRunner.insert(connection,sql, new ScalarHandler(generateKey), params)).intValue();
+			}else{
+				n = ((BigInteger) queryRunner.insert(sql, new ScalarHandler(generateKey), params)).intValue();
+			}
+			return n;
 		} catch (SQLException e) {
-			logger.error("执行sql发送异常", e);
-			throw new RuntimeException("执行sql发送异常");
+			logger.error("插入数据异常", e);
+			throw new RuntimeException("插入数据异常");
+		}
+	}
+
+	@Override
+	public int update(String sql,Object... params) {
+		try {
+			int update;
+			Connection connection = DatabaseHelper.getConnection();
+			if(connection != null){
+				update = queryRunner.update(sql, connection, params);
+			}else{
+				update = queryRunner.update(sql, params);
+			}
+			return update;
+		} catch (SQLException e) {
+			logger.error("更新数据异常", e);
+			throw new RuntimeException("更新数据异常");
 		}
 	}
 }

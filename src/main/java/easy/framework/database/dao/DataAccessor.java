@@ -1,5 +1,6 @@
 package easy.framework.database.dao;
 
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -8,52 +9,12 @@ import java.util.List;
  */
 public interface DataAccessor {
 	/**
-	 * 新增数据，返回自增主键值
-	 * @param generateKey 自增主键字段名称,默认值是PropertyConfigConstant.GENERATE_KEY_NAME
-	 * @param sql
-	 * @param params
-	 * @return
-	 */
-	int insertGeneratedKeys(String generateKey, String sql, Object... params);
-
-	/**
-	 * select count(*) from users
-	 * 返回数据总数
+	 * select count(*) from users 返回数据总数
 	 * @param sql
 	 * @param params
 	 * @return
 	 */
 	int selectCount(String sql, Object... params);
-
-	/**
-	 * 新增数据
-	 * @param sql
-	 * @param params 参数
-	 * @return
-	 */
-	int insert(String sql, Object... params);
-	/**
-	 * 批量插入数据
-	 * @param sql
-	 * @param params 参数
-	 * @return
-	 */
-	int insertBatch(String sql, Object[][]... params);
-
-	/**
-	 * 更新数据
-	 * @param sql
-	 * @param params 参数
-	 * @return
-	 */
-	int update(String sql, Object... params);
-	/**
-	 * 删除数据
-	 * @param sql
-	 * @param params 参数
-	 * @return
-	 */
-	int delete(String sql, Object... params);
 	/**
 	 * 返回单个数据
 	 * @param sql sql语句
@@ -72,12 +33,19 @@ public interface DataAccessor {
 	 * @return
 	 */
 	<T> List<T> selectList(String sql, Class<T> clazz, Object... params);
-
 	/**
-	 * 执行sql
+	 * 新增数据，返回自增主键值
+	 * @param generateKey 自增主键字段名称,默认值是PropertyConfigConstant.GENERATE_KEY_NAME
+	 * @param sql
+	 * @param params
+	 * @return
+	 */
+	int insertGeneratedKeys(String generateKey, String sql, Object... params);
+	/**
+	 * 更新数据
 	 * @param sql
 	 * @param params 参数
 	 * @return
 	 */
-	int execute(String sql, Object... params);
+	int update(String sql, Object... params);
 }
