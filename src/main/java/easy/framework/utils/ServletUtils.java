@@ -75,15 +75,17 @@ public class ServletUtils {
 	public static Map<String, String> parseQueryParams(HttpServletRequest request) {
 		Map<String, String> params = new HashMap<>(16);
 		String queryString = request.getQueryString();
-		if (StringUtils.isNotBlank(queryString)) {
-			String[] kv = queryString.split("&");
-			if (kv != null && kv.length > 0) {
-				for (String param : kv) {
-					String[] pairs = param.split("=");
-					if (pairs != null && pairs.length == 2) {
-						params.put(pairs[0], pairs[1]);
-					}
-				}
+		if (StringUtils.isBlank(queryString)) {
+			return params;
+		}
+	        String[] kv = queryString.split("&");
+		if (kv == null || kv.length == 0) {
+			return params;
+		}
+		for (String param : kv) {
+			String[] pairs = param.split("=");
+			if (pairs != null && pairs.length == 2) {
+				params.put(pairs[0], pairs[1]);
 			}
 		}
 		return params;
@@ -111,6 +113,7 @@ public class ServletUtils {
 			readerParams(params,buffer);
 			buffer = JsonUtils.toJson(params);
 		}
+		//这里需要优化 TODO
 		for (ParamModel paramModel : requestBodyList) {
 			try {
 				Object obj = JsonUtils.toBean(buffer, paramModel.getParamType());
