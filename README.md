@@ -1,5 +1,5 @@
 # easy-mvc
-轻量级web框架
+轻量级web框架 基于Servlet3.0 无需配置web.xml
 
 ### 注解使用说明
 #### @Controller
