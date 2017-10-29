@@ -42,7 +42,7 @@ public interface DataAccessor {
 	 */
 	int insertGeneratedKeys(String generateKey, String sql, Object... params);
 	/**
-	 * 更新数据
+	 * 插入、删除、更新数据
 	 * @param sql
 	 * @param params 参数
 	 * @return
