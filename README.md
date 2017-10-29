@@ -116,11 +116,11 @@ public class UserController {
 1. 可使用注解：@Entity、@Table、@Field、@FieldIgnore
 2. 数据库表名称：
 	1. 默认标注了@Entity注解的实体类都会映射到相对应的数据库表
-	2. 默认数据库表名会被映射成下划线分隔的小写实体类名称，如：UserRole实体类 -> user_role数据库表 可以使用@Table注解表名具体数据库表名称
+	2. 默认数据库表名会被映射成下划线分隔的小写实体类名称，如：UserRole实体类 -> user_role数据库表 可以使用@Table注解自定义具体数据库表名称
 3. 数据库表字段：
  	1. 默认所有private访问级别的字段会被映射到相对应的数据库表字段，如果某个字段不需要映射，可以通过@FieldIgnore注解标注忽略
 	2. 默认实体类属性会被映射成下划线分隔的大写数据库表字段，如：userName -> USER_NAME,age -> AGE, firstUserName -> FIRST_USER_NAME
-	3. 如果想指定表字段名称，可以使用@Field注解标注
+	3. 如果想自定义表字段名称，可以使用@Field注解标注
 	4. 实体类属性尽量使用Camel命名法(即驼峰命名法)，如userName
 ``` java
 @Entity
@@ -224,6 +224,7 @@ easy.framework.custom.fileUpload.maxSize=
 easy.framework.custom.fileUpload.singleFileSize=
 #默认临时目录/fileUploadTempDir
 easy.framework.custom.fileUpload.directory=
+#自定义插件配置项
 
 ```
 
